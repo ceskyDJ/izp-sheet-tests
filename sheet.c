@@ -8,9 +8,9 @@
 #include <stdio.h>
 
 int main(void) {
-    printf("Hello, World!\n");
-
-    // TODO: start working on the project...
+    int a;
+    scanf("%d", &a);
+    printf("%d", a);
 
     return 0;
 }

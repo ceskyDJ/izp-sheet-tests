@@ -3,4 +3,4 @@ project(sheet C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(sheet main.c)
+add_executable(sheet sheet.c)
