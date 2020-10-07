@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+/**
+ * Exception for failed tests
+ *
+ * @author Michal ŠMAHEL <admin@ceskydj.cz>
+ * @date October 2020
+ */
 class ErrorInScriptException extends Exception
 {
     /**

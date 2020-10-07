@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * PHP console file for running test for C scripts
+ *
+ * @author Michal ŠMAHEL <admin@ceskydj.cz>
+ * @author Vojtěch SVĚDIROH
+ * @date October 2020
+ */
+
+// Script input params
+// test.php -c          Activate extended color mode (with background color)
 $args = getopt("c::");
 
 // Colors for terminal outputs
@@ -24,8 +34,9 @@ $f = "test/files";
 
 $schoolInputFile = "{$f}/0-school-input.txt";
 
+// Callback for successful tests (required for automation)
 $successCallback = function ($number, $name) {
-    echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
+    echo GREEN."[{$number}] {$name}: The test was successful".WHITE.PHP_EOL;
 };
 
 // Individual tests
