@@ -2,10 +2,18 @@
 
 declare(strict_types=1);
 
+$args = getopt("c::");
+
 // Colors for terminal outputs
-define("GREEN", "\e[0;32;40m");
-define("RED", "\e[0;31;40m");
-define("WHITE", "\e[0m");
+if (key_exists("c", $args)) {
+    define("GREEN", "\e[0;32;40m");
+    define("RED", "\e[0;31;40m");
+    define("WHITE", "\e[0m");
+} else {
+    define("GREEN", "\e[0;32m");
+    define("RED", "\e[0;31m");
+    define("WHITE", "\e[0m");
+}
 
 require 'ErrorInScriptException.php';
 require 'Tester.php';
