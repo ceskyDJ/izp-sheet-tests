@@ -62,7 +62,7 @@ class Tester
         }
 
         if ((int)$exitCode !== $expExit) {
-            throw new ErrorInScriptException("Error code doesn't match", $this->ran, $name, ErrorInScriptException::TYPE_BAD_ERROR_CODE);
+            throw new ErrorInScriptException("Exit code doesn't match", $this->ran, $name, ErrorInScriptException::TYPE_BAD_ERROR_CODE);
         }
 
         $this->successful++;

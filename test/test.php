@@ -27,7 +27,7 @@ try {
 
     echo GREEN."({$tester->getRan()}) {$name}: was successful".WHITE.PHP_EOL;
 } catch (ErrorInScriptException $e) {
-    $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "stdout" : "error code";
+    $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
     echo RED."({$e->getNumber()}) {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
 }
 
