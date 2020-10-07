@@ -116,6 +116,11 @@ class Tester
      */
     public function getSuccessRate(): int
     {
+        // Fix for division by zero error
+        if ($this->ran === 0) {
+            return 0;
+        }
+
         return (int)round(($this->successful / $this->ran) * 100, 0);
     }
 
@@ -126,6 +131,11 @@ class Tester
      */
     public function getFailRate(): int
     {
+        // Fix for division by zero error
+        if ($this->ran === 0) {
+            return 0;
+        }
+
         return (int)round(($this->failed / $this->ran) * 100, 0);
     }
 
