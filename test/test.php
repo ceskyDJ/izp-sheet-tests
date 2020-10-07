@@ -43,11 +43,20 @@ $failCallback = function (ErrorInScriptException $e) {
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
 };
 
+// Simple call
 $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
     ->setFileInput($schoolInputFile)
     ->setFileExpOutput("{$f}/1-simple-call.txt");
+// Add week column
+$tester->createTest()
+    ->setName("Add column to the left (1st school sample)")
+    ->setScript($script)
+    ->addParams("-d : icol 1")
+    ->addParams("-d : rows 1 1 cset 1 Tyden")
+    ->setFileInput($schoolInputFile)
+    ->setFileExpOutput("{$f}/2-add-week-column.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
