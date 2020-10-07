@@ -22,6 +22,8 @@ $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 $f = "test/files";
 
+$schoolInputFile = "{$f}/0-school-input.txt";
+
 $successCallback = function ($number, $name) {
     echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
 };
@@ -32,7 +34,7 @@ try {
         "Simple call without parameters (=> without changes)",
         $script,
         "",
-        "{$f}/0-sample-input.txt",
+        $schoolInputFile,
         "{$f}/1-simple-call.txt",
         0, $successCallback
     );
