@@ -17,7 +17,7 @@ class ErrorInScriptException extends Exception
     /**
      * The C script ended with bad error code (different from expected)
      */
-    public const TYPE_BAD_ERROR_CODE = 1;
+    public const TYPE_BAD_EXIT_CODE = 1;
 
     /**
      * @var int Test number (running position)
