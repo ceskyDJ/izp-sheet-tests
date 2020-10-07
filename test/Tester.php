@@ -106,6 +106,26 @@ class Tester
     }
 
     /**
+     * Returns summary success rate
+     *
+     * @return int Summary success rate
+     */
+    public function getSuccessRate(): int
+    {
+        return (int)round(($this->successful / $this->ran) * 100, 0);
+    }
+
+    /**
+     * Returns summary fail rate
+     *
+     * @return int Summary fail rate
+     */
+    public function getFailRate(): int
+    {
+        return (int)round(($this->failed / $this->ran) * 100, 0);
+    }
+
+    /**
      * Getter for number of successful tests
      *
      * @return int Number of successful tests
