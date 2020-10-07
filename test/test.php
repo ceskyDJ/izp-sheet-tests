@@ -15,8 +15,8 @@ if (key_exists("c", $args)) {
     define("WHITE", "\e[0m");
 }
 
-require 'ErrorInScriptException.php';
-require 'Tester.php';
+require "ErrorInScriptException.php";
+require "Tester.php";
 
 $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
@@ -35,6 +35,6 @@ try {
 $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getRan(), $tester->getSuccessRate());
 $failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getRan(), $tester->getFailRate());
 
-echo WHITE.str_repeat('=', 37).PHP_EOL;
+echo WHITE.str_repeat("=", 37).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
