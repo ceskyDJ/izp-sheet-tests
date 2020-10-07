@@ -17,11 +17,16 @@ class Tester
      * Default exit code in case the C script return nothing or fail
      */
     private const DEFAULT_EXIT_CODE = 9999;
+    /**
+     * Temporary file for simulate production conditions
+     */
+    private const TMP_FILE = __DIR__."/../tmp/sample.csv";
 
     /**
-     * @var int Number of ran tests
+     * @var Test[] Tests for the try
      */
-    private int $ran = 0;
+    private array $tests = [];
+
     /**
      * @var int Number of successful tests
      */
@@ -32,95 +37,91 @@ class Tester
     private int $failed = 0;
 
     /**
+     * Creates new test
+     *
+     * @return Test New test's instance
+     */
+    public function createTest(): Test
+    {
+        // Tests are numbered from 1 --> +1
+        $number = count($this->tests) + 1;
+
+        return ($this->tests[] = new Test($number));
+    }
+
+    /**
      * Tests C script
      *
-     * @param string $name Test's name
-     * @param string $script Path to the C script (or its name)
-     * @param string $params Parameters for the C script
-     * @param array $stdIn Input for the C script
-     * @param array $expStdOut Expected output returned by the C script
-     * @param int $expExit Expected exit code returned by the C script
-     * @param callable $callback What to call if the test was successful
+     * @param callable $successCallback What to call if the test was successful
+     * @param callable $failCallback What to call if the test failed
+     */
+    public function runTests(callable $successCallback, callable $failCallback): void
+    {
+        foreach ($this->tests as $test) {
+            try {
+                $this->runIndividualTest($test);
+
+                // Call callback for success tests
+                $this->successful++;
+                $successCallback($test->getNumber(), $test->getName());
+            } catch (ErrorInScriptException $e) {
+                $this->failed++;
+                $failCallback($e);
+            }
+        }
+    }
+
+    /**
+     * Runs individual test
+     *
+     * @param Test $test Test to run
      *
      * @throws \ErrorInScriptException The test failed
      */
-    public function test(string $name, string $script, string $params, array $stdIn, array $expStdOut, int $expExit, callable $callback): void
+    private function runIndividualTest(Test $test): void
     {
-        $this->ran++;
-
-        // Input things
-        $testFile = $this->prepareTestFile(__DIR__."/../tmp/sample.csv", $stdIn);
-        $script = strstr($script, "/") ? $this->getRealPath($script) : "./{$script}";
-
         // Output things
-        $stdOut = [];
+        // The first child test needs input in $stdOut like other tests
+        // The general reason for that is child tests are chaining and need input and output in one variable
+        $stdOut = $test->getStdIn();
         $exitCode = self::DEFAULT_EXIT_CODE;
 
-        exec("cat {$testFile} | {$script} {$params}", $stdOut, $exitCode);
+        // Test things
+        $expStdOut = $test->getExpStdOut();
 
+        $paramsGroup = $test->getParamsGroup();
+        for ($i = 0; $i < count($paramsGroup); $i++) {
+            $this->prepareTestFile(self::TMP_FILE, $stdOut);
+            $stdOut = []; // It's required because exec() only appends values, not replace
+
+            $command = sprintf("cat %s | %s %s", self::TMP_FILE, $test->getScript(), $paramsGroup[$i]);
+            exec($command, $stdOut, $exitCode);
+
+            // Exit codes of all child processes have to be 0
+            // Exit code of the end process (C script ran with end parameters) can be different,
+            // it depends on expected exit code set up for individual test
+            if ($i !== (count($paramsGroup) - 1) && $exitCode !== 0) {
+                throw new ErrorInScriptException("Child process ended with error. Returned exit code: \"{$exitCode}\".", $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_EXIT_CODE);
+            }
+        }
+
+        // Output testing
         if(count($stdOut) !== count($expStdOut)) {
-            $this->failed++;
-            throw new ErrorInScriptException("Number of rows doesn't match", $this->ran, $name, ErrorInScriptException::TYPE_BAD_OUTPUT);
+            throw new ErrorInScriptException("Number of rows doesn't match.", $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_OUTPUT);
         }
 
         foreach($stdOut as $key => $value){
             if($value != $expStdOut[$key]){
-                $this->failed++;
                 $errorMessage = sprintf("Output doesn't match (expected: \"%s\", got \"%s\" on line %d).", $expStdOut[$key], $value, $key + 1);
-                throw new ErrorInScriptException($errorMessage, $this->ran, $name, ErrorInScriptException::TYPE_BAD_OUTPUT);
+                throw new ErrorInScriptException($errorMessage, $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_OUTPUT);
             }
         }
 
-        if ((int)$exitCode !== $expExit) {
-            $this->failed++;
-            throw new ErrorInScriptException("Exit code doesn't match", $this->ran, $name, ErrorInScriptException::TYPE_BAD_ERROR_CODE);
+        // Exit code testing
+        if ((int)$exitCode !== $test->getExpExitCode()) {
+            $errorMessage = sprintf("Exit code doesn't match (expected: \"%s\", got \"%s\").", $test->getExpExitCode(), $exitCode);
+            throw new ErrorInScriptException($errorMessage, $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_EXIT_CODE);
         }
-
-        // Call callback for success tests
-        $this->successful++;
-        $callback($this->ran, $name);
-    }
-
-    /**
-     * Tests C script with raw string inputs
-     *
-     * @param string $name Test's name
-     * @param string $script Path to the C script (or its name)
-     * @param string $params Parameters for the C script
-     * @param string $input String with input for the C script
-     * @param string $expOutput String with expected output returned by the C script
-     * @param int $expExit Expected exit code returned by the C script
-     * @param callable $callback What to call if the test was successful
-     *
-     * @throws \ErrorInScriptException The test failed
-     */
-    public function testStringInput(string $name, string $script, string $params, string $input, string $expOutput, int $expExit, callable $callback): void
-    {
-        $stdIn = explode("\n", $input);
-        $expStdOut = explode("\n", $expOutput);
-
-        $this->test($name, $script, $params, $stdIn, $expStdOut, $expExit, $callback);
-    }
-
-    /**
-     * Tests C script with file inputs
-     *
-     * @param string $name Test's name
-     * @param string $script Path to the C script (or its name)
-     * @param string $params Parameters for the C script
-     * @param string $inputFile Path to file with input for the C script
-     * @param string $expOutputFile Path to file with expected output returned by the C script
-     * @param int $expExit Expected exit code returned by the C script
-     * @param callable $callback What to call if the test was successful
-     *
-     * @throws ErrorInScriptException The test failed
-     */
-    public function testFileInput(string $name, string $script, string $params, string $inputFile, string $expOutputFile, int $expExit, callable $callback): void
-    {
-        $input = file_get_contents($inputFile);
-        $expOutput = file_get_contents($expOutputFile);
-
-        $this->testStringInput($name, $script, $params, $input, $expOutput, $expExit, $callback);
     }
 
     /**
@@ -151,13 +152,13 @@ class Tester
     }
 
     /**
-     * Getter for number of ran tests
+     * Returns number of created tests
      *
-     * @return int Number of ran tests
+     * @return int Number of created tests
      */
-    public function getRan(): int
+    public function getTestsSum(): int
     {
-        return $this->ran;
+        return count($this->tests);
     }
 
     /**
@@ -168,11 +169,11 @@ class Tester
     public function getSuccessRate(): int
     {
         // Fix for division by zero error
-        if ($this->ran === 0) {
+        if ($this->getTestsSum() === 0) {
             return 0;
         }
 
-        return (int)round(($this->successful / $this->ran) * 100, 0);
+        return (int)round(($this->successful / $this->getTestsSum()) * 100, 0);
     }
 
     /**
@@ -183,11 +184,11 @@ class Tester
     public function getFailRate(): int
     {
         // Fix for division by zero error
-        if ($this->ran === 0) {
+        if ($this->getTestsSum() === 0) {
             return 0;
         }
 
-        return (int)round(($this->failed / $this->ran) * 100, 0);
+        return (int)round(($this->failed / $this->getTestsSum()) * 100, 0);
     }
 
     /**
@@ -208,5 +209,270 @@ class Tester
     public function getFailed(): int
     {
         return $this->failed;
+    }
+}
+
+/**
+ * Entity for test
+ *
+ * It's used for storing test's data and basic operations.
+ *
+ * @author Michal ŠMAHEL <admin@ceskydj.cz>
+ * @date October 2020
+ */
+class Test
+{
+    /**
+     * @var int Test's number (position in testing)
+     */
+    private int $number;
+    /**
+     * @var string Test's name
+     */
+    private string $name;
+    /**
+     * @var string Path to compiled C script to run test on
+     */
+    private string $script;
+    /**
+     * @var array Group of parameters provided to the C script
+     */
+    private array $paramsGroup = [];
+    /**
+     * @var array Input data for the C script
+     */
+    private array $stdIn;
+    /**
+     * @var array Expected output data from the C script
+     */
+    private array $expStdOut;
+    /**
+     * @var int Expected exit code returned by the C script
+     */
+    private int $expExit = 0;
+
+    /**
+     * Test constructor
+     *
+     * @param int $number
+     */
+    public function __construct(int $number)
+    {
+        $this->number = $number;
+    }
+
+    /**
+     * Getter for test's number
+     *
+     * @return int Test's number
+     */
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    /**
+     * Getter for test's name
+     *
+     * @return string Test's name
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Fluent setter for test's name
+     *
+     * @param string $name Test's name
+     *
+     * @return Test Test's instance
+     */
+    public function setName(string $name): Test
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Getter for script path
+     *
+     * @return string Script path
+     */
+    public function getScript(): string
+    {
+        return $this->script;
+    }
+
+    /**
+     * Setter for script path
+     *
+     * @param string $script Script path or script name (if in the same folder)
+     *
+     * @return Test Test's instance
+     */
+    public function setScript(string $script): Test
+    {
+        $this->script = strstr($script, "/") ? $script : "./{$script}";;
+
+        return $this;
+    }
+
+    /**
+     * Getter for group of parameters for the C script
+     *
+     * @return array Group of parameters for the C script
+     */
+    public function getParamsGroup(): array
+    {
+        // This is simple test without child processes and without parameters
+        if (empty($this->paramsGroup)) {
+            return [""];
+        }
+
+        return $this->paramsGroup;
+    }
+
+    /**
+     * Adds parameters for the C script to group of all parameters
+     *
+     * @param string $params Parameters for the C script
+     *
+     * @return Test Test's instance
+     */
+    public function addParams(string $params): Test
+    {
+        $this->paramsGroup[] = $params;
+
+        return $this;
+    }
+
+    /**
+     * Getter for input data for the C script
+     *
+     * @return array Input data for the C script
+     */
+    public function getStdIn(): array
+    {
+        return $this->stdIn;
+    }
+
+    /**
+     * Setter for input data for the C script
+     *
+     * @param array $stdIn Input data for the C script (array of rows)
+     *
+     * @return Test Test's instance
+     */
+    public function setStdIn(array $stdIn): Test
+    {
+        $this->stdIn = $stdIn;
+
+        return $this;
+    }
+
+    /**
+     * Sets input data for the C script from string
+     *
+     * @param string $input Input data for the C script in raw string form
+     *
+     * @return Test Test's instance
+     */
+    public function setInput(string $input): Test
+    {
+        $this->stdIn = explode("\n", $input);
+
+        return $this;
+    }
+
+    /**
+     * Sets input data for the C script from file
+     *
+     * @param string $file Path to file with input data for the C script
+     *
+     * @return Test Test's instance
+     */
+    public function setFileInput(string $file): Test
+    {
+        $this->stdIn = explode("\n", file_get_contents($file));
+
+        return $this;
+    }
+
+    /**
+     * Getter for expected output from the C script
+     *
+     * @return array Expected output from the C script
+     */
+    public function getExpStdOut(): array
+    {
+        return $this->expStdOut;
+    }
+
+    /**
+     * Setter for expected output from the C script
+     *
+     * @param array $expStdOut Expected output from the C script (array of rows)
+     *
+     * @return Test Test's instance
+     */
+    public function setExpStdOut(array $expStdOut): Test
+    {
+        $this->expStdOut = $expStdOut;
+
+        return $this;
+    }
+
+    /**
+     * Sets expected output from the C script from string
+     *
+     * @param string $expOutput Expected output from the C script in raw string form
+     *
+     * @return Test Test's instance
+     */
+    public function setExpOutput(string $expOutput): Test
+    {
+        $this->expStdOut = explode("\n", $expOutput);
+
+        return $this;
+    }
+
+    /**
+     * Sets expected output from the C script from file
+     *
+     * @param string $file Path to file with expected output from the C script
+     *
+     * @return Test Test's instance
+     */
+    public function setFileExpOutput(string $file): Test
+    {
+        $this->expStdOut = explode("\n", file_get_contents($file));
+
+        return $this;
+    }
+
+    /**
+     * Getter for expected exit code returned from the C script
+     *
+     * @return int Expected exit code returned from the C script
+     */
+    public function getExpExitCode(): int
+    {
+        return $this->expExit;
+    }
+
+    /**
+     * Setter for the expected exit code returned from the C script
+     *
+     * @param int $expExit Expected exit code returned from the C script
+     *
+     * @return Test Test's instance
+     */
+    public function setExpExitCode(int $expExit): Test
+    {
+        $this->expExit = $expExit;
+
+        return $this;
     }
 }

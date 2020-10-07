@@ -35,30 +35,25 @@ $f = "test/files";
 $schoolInputFile = "{$f}/0-school-input.txt";
 
 // Callback for successful tests (required for automation)
-$successCallback = function ($number, $name) {
-    echo GREEN."[{$number}] {$name}: The test was successful".WHITE.PHP_EOL;
+$successCallback = function (int $number, string $name) {
+    echo GREEN."[{$number}] {$name}: The test was successful.".WHITE.PHP_EOL;
 };
-
-// Individual tests
-try {
-    // Simple call
-    $tester->testFileInput(
-        "Simple call without parameters (=> without changes)",
-        $script,
-        "",
-        $schoolInputFile,
-        "{$f}/1-simple-call.txt",
-        0,
-        $successCallback
-    );
-} catch (ErrorInScriptException $e) {
+$failCallback = function (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
-}
+};
+
+$tester->createTest()
+    ->setName("Simple call without parameters (=> without changes)")
+    ->setScript($script)
+    ->setFileInput($schoolInputFile)
+    ->setFileExpOutput("{$f}/1-simple-call.txt");
+
+$tester->runTests($successCallback, $failCallback);
 
 // Summary report
-$successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getRan(), $tester->getSuccessRate());
-$failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getRan(), $tester->getFailRate());
+$successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getTestsSum(), $tester->getSuccessRate());
+$failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
 
 echo WHITE.str_repeat("=", 37).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
