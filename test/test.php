@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+// Script input params
+// test.php -c          Activate extended color mode (with background color)
 $args = getopt("c::");
 
 // Colors for terminal outputs
@@ -22,6 +24,7 @@ $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 $f = "test/files";
 
+// Callback for successful tests (required for automation)
 $successCallback = function ($number, $name) {
     echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
 };
