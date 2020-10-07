@@ -3,10 +3,10 @@ image: gcc
 build:
   stage: build
   script:
-    - gcc -std=c99 -Wall -Wextra -Werror sheet.c -o sheet
+    - gcc -std=c99 -Wall -Wextra -Werror sheet.c -o tmp/sheet
   artifacts:
     paths:
-      - sheet
+      - tmp/sheet
 
 test:
   stage: test
@@ -14,4 +14,4 @@ test:
     name: php:7.4
   script:
     - php -v
-    - php test.php
+    - php test/test.php

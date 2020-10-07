@@ -10,7 +10,7 @@ require 'ErrorInScriptException.php';
 require 'Tester.php';
 
 $tester = new Tester();
-$script = "sheet";
+$script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 
 try {
     $tester->test($name = "Test 1", $script, "nic", ["123", "321"], ["123"]);
