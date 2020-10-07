@@ -25,8 +25,9 @@ if (key_exists("c", $args)) {
     define("WHITE", "\e[0m");
 }
 
-require "ErrorInScriptException.php";
-require "Tester.php";
+require "classes/ErrorInScriptException.php";
+require "classes/Test.php";
+require "classes/Tester.php";
 
 $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
