@@ -26,7 +26,7 @@ $f = "test/files";
 
 // Callback for successful tests (required for automation)
 $successCallback = function ($number, $name) {
-    echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
+    echo GREEN."[{$number}] {$name}: The test was successful".WHITE.PHP_EOL;
 };
 
 // Individual tests
