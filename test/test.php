@@ -41,13 +41,15 @@ $successCallback = function ($number, $name) {
 
 // Individual tests
 try {
+    // Simple call
     $tester->testFileInput(
         "Simple call without parameters (=> without changes)",
         $script,
         "",
         $schoolInputFile,
         "{$f}/1-simple-call.txt",
-        0, $successCallback
+        0,
+        $successCallback
     );
 } catch (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
