@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/**
+ * Tester for C scripts
+ *
+ * Tests C scripts by arguments provided in params of public test* methods.
+ *
+ * @author Michal ŠMAHEL <admin@ceskydj.cz>
+ * @author Vojtěch SVĚDIROH
+ * @date October 2020
+ */
 class Tester
 {
     /**

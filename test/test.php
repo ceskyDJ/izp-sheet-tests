@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/**
+ * PHP console file for running test for C scripts
+ *
+ * @author Michal ŠMAHEL <admin@ceskydj.cz>
+ * @author Vojtěch SVĚDIROH
+ * @date October 2020
+ */
+
 // Script input params
 // test.php -c          Activate extended color mode (with background color)
 $args = getopt("c::");
