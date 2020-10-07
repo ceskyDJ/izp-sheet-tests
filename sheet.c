@@ -8,9 +8,12 @@
 #include <stdio.h>
 
 int main(void) {
-    int a;
-    scanf("%d", &a);
-    printf("%d", a);
+    int row = 0;
+
+    scanf("%d", &row);
+    printf("%d\n", row);
+    scanf("%d", &row);
+    printf("%d", row);
 
     return 0;
 }
