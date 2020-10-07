@@ -3,5 +3,4 @@
 
 # Compiled and debug files
 cmake-build-debug/
-tmp/
 sheet
