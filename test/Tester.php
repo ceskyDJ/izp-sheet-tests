@@ -46,8 +46,6 @@ class Tester
         $stdOut = [];
         $exitCode = self::DEFAULT_EXIT_CODE;
 
-        echo $testFile.PHP_EOL;
-
         exec("cat {$testFile} | {$script} {$params}", $stdOut, $exitCode);
 
         if(count($stdOut) !== count($expStdOut)) {
