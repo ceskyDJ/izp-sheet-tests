@@ -73,6 +73,48 @@ class Tester
     }
 
     /**
+     * Tests C script with raw string inputs
+     *
+     * @param string $name Test's name
+     * @param string $script Path to the C script (or its name)
+     * @param string $params Parameters for the C script
+     * @param string $input String with input for the C script
+     * @param string $expOutput String with expected output returned by the C script
+     * @param int $expExit Expected exit code returned by the C script
+     * @param callable $callback What to call if the test was successful
+     *
+     * @throws \ErrorInScriptException The test failed
+     */
+    public function testStringInput(string $name, string $script, string $params, string $input, string $expOutput, int $expExit, callable $callback): void
+    {
+        $stdIn = explode("\n", $input);
+        $expStdOut = explode("\n", $expOutput);
+
+        $this->test($name, $script, $params, $stdIn, $expStdOut, $expExit, $callback);
+    }
+
+    /**
+     * Tests C script with file inputs
+     *
+     * @param string $name Test's name
+     * @param string $script Path to the C script (or its name)
+     * @param string $params Parameters for the C script
+     * @param string $inputFile Path to file with input for the C script
+     * @param string $expOutputFile Path to file with expected output returned by the C script
+     * @param int $expExit Expected exit code returned by the C script
+     * @param callable $callback What to call if the test was successful
+     *
+     * @throws ErrorInScriptException The test failed
+     */
+    public function testFileInput(string $name, string $script, string $params, string $inputFile, string $expOutputFile, int $expExit, callable $callback): void
+    {
+        $input = file_get_contents($inputFile);
+        $expOutput = file_get_contents($expOutputFile);
+
+        $this->testStringInput($name, $script, $params, $input, $expOutput, $expExit, $callback);
+    }
+
+    /**
      * Prepares test CSV file (input for the C script)
      *
      * @param string $name File name

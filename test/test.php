@@ -20,6 +20,7 @@ require "Tester.php";
 
 $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
+$f = "test/files";
 
 $successCallback = function ($number, $name) {
     echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
@@ -27,7 +28,14 @@ $successCallback = function ($number, $name) {
 
 // Individual tests
 try {
-    $tester->test("Test 1", $script, "", ["123", "321"], ["123"], 0, $successCallback);
+    $tester->testFileInput(
+        "Simple call without parameters (=> without changes)",
+        $script,
+        "",
+        "{$f}/0-sample-input.txt",
+        "{$f}/1-simple-call.txt",
+        0, $successCallback
+    );
 } catch (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
