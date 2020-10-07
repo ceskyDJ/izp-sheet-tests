@@ -30,11 +30,12 @@ class Tester
      * @param string $params Parameters for the C script
      * @param array $stdIn Input for the C script
      * @param array $expStdOut Expected output returned by the C script
-     * @param int $expExit Expected exit code returned by the C script (default is 0 - C lang convention)
+     * @param int $expExit Expected exit code returned by the C script
+     * @param callable $callback What to call if the test was successful
      *
-     * @throws ErrorInScriptException The test failed
+     * @throws \ErrorInScriptException The test failed
      */
-    public function test(string $name, string $script, string $params, array $stdIn, array $expStdOut, int $expExit = 0): void
+    public function test(string $name, string $script, string $params, array $stdIn, array $expStdOut, int $expExit, callable $callback): void
     {
         $this->ran++;
 
@@ -66,7 +67,9 @@ class Tester
             throw new ErrorInScriptException("Exit code doesn't match", $this->ran, $name, ErrorInScriptException::TYPE_BAD_ERROR_CODE);
         }
 
+        // Call callback for success tests
         $this->successful++;
+        $callback($this->ran, $name);
     }
 
     /**

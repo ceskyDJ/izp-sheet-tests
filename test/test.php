@@ -21,11 +21,13 @@ require "Tester.php";
 $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 
+$successCallback = function ($number, $name) {
+    echo GREEN."[{$number}] {$name}: was successful".WHITE.PHP_EOL;
+};
+
 // Individual tests
 try {
-    $tester->test($name = "Test 1", $script, "nic", ["123", "321"], ["123"]);
-
-    echo GREEN."[{$tester->getRan()}] {$name}: was successful".WHITE.PHP_EOL;
+    $tester->test("Test 1", $script, "", ["123", "321"], ["123"], 0, $successCallback);
 } catch (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
