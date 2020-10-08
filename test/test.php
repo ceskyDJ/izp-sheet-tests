@@ -88,3 +88,6 @@ $failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $te
 echo WHITE.str_repeat("=", 37).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
+
+// Exit code for Gitlab
+exit($tester->getFinalExitCode());

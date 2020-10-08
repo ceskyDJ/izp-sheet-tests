@@ -72,6 +72,16 @@ class Tester
     }
 
     /**
+     * Returns final exit code depends on number of failed tests
+     *
+     * @return int Final exit code to return as result of testing
+     */
+    public function getFinalExitCode(): int
+    {
+        return $this->failed;
+    }
+
+    /**
      * Runs individual test
      *
      * @param Test $test Test to run
