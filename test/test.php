@@ -71,6 +71,13 @@ $tester->createTest()
     ->addParams("-d : rows - - cset 2 \"celkem bodu\"")
     ->setFileInput("{$f}/3-fill-week-column.txt") // Follows the previous test
     ->setFileExpOutput("{$f}/4-add-points-sum-row.txt");
+// Count points summary
+$tester->createTest()
+    ->setName("Count points summary (4th school sample)")
+    ->setScript($script)
+    ->addParams("-d : rsum 3 2 14")
+    ->setFileInput("{$f}/4-add-points-sum-row.txt")
+    ->setFileExpOutput("{$f}/5-count-points-sum.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
