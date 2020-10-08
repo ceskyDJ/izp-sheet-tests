@@ -78,7 +78,8 @@ class Tester
      */
     public function getFinalExitCode(): int
     {
-        return $this->failed;
+        // 254 is the biggest usable exit code
+        return ($this->failed <= 254 ? $this->failed : 254);
     }
 
     /**
