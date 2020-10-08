@@ -94,7 +94,7 @@ class Tester
             $this->prepareTestFile(self::TMP_FILE, $stdOut);
             $stdOut = []; // It's required because exec() only appends values, not replace
 
-            $command = sprintf("cat %s | %s %s", self::TMP_FILE, $test->getScript(), $paramsGroup[$i]);
+            $command = sprintf("%s %s < %s", $test->getScript(), $paramsGroup[$i], self::TMP_FILE);
             exec($command, $stdOut, $exitCode);
 
             // Exit codes of all child processes have to be 0
