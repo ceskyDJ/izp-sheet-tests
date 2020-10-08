@@ -63,6 +63,14 @@ $tester->createTest()
     ->addParams("-d : rseq 1 2 - 1")
     ->setFileInput("{$f}/2-add-week-column.txt") // Follows the previous test
     ->setFileExpOutput("{$f}/3-fill-week-column.txt");
+// Add points summary row
+$tester->createTest()
+    ->setName("Add points summary row (3rd school sample)")
+    ->setScript($script)
+    ->addParams("-d : arow")
+    ->addParams("-d : rows - - cset 2 \"celkem bodu\"")
+    ->setFileInput("{$f}/3-fill-week-column.txt") // Follows the previous test
+    ->setFileExpOutput("{$f}/4-add-points-sum-row.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
