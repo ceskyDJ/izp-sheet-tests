@@ -33,8 +33,6 @@ $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 $f = "test/files";
 
-$schoolInputFile = "{$f}/0-school-input.txt";
-
 // Callback for successful tests (required for automation)
 $successCallback = function (int $number, string $name) {
     echo GREEN."[{$number}] {$name}: The test was successful.".WHITE.PHP_EOL;
@@ -48,7 +46,7 @@ $failCallback = function (ErrorInScriptException $e) {
 $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
-    ->setFileInput($schoolInputFile)
+    ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/1-simple-call.txt");
 // Add week column
 $tester->createTest()
@@ -56,8 +54,15 @@ $tester->createTest()
     ->setScript($script)
     ->addParams("-d : icol 1")
     ->addParams("-d : rows 1 1 cset 1 Tyden")
-    ->setFileInput($schoolInputFile)
+    ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/2-add-week-column.txt");
+// Fill week column
+$tester->createTest()
+    ->setName("Fill week column (2nd school sample)")
+    ->setScript($script)
+    ->addParams("-d : rseq 1 2 - 1")
+    ->setFileInput("{$f}/2-add-week-column.txt") // Follows the previous test
+    ->setFileExpOutput("{$f}/3-fill-week-column.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
