@@ -38,7 +38,7 @@ $successCallback = function (int $number, string $name) {
     echo GREEN."[{$number}] {$name}: The test was successful.".WHITE.PHP_EOL;
 };
 $failCallback = function (ErrorInScriptException $e) {
-    $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Stdout error" : "Exit code error";
+    $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Output error" : "Exit code error";
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
 };
 
