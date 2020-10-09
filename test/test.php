@@ -170,6 +170,13 @@ $tester->createTest()
     ->addParams("-d ; irow 0")
     ->setFileInput($elmFunInput)
     ->setExpExitCode(1);
+// irow with R < 0
+$tester->createTest()
+    ->setName("irow with R = 0")
+    ->setScript($script)
+    ->addParams("-d ; irow -5")
+    ->setFileInput($elmFunInput)
+    ->setExpExitCode(1);
 
 $tester->runTests($successCallback, $failCallback);
 
