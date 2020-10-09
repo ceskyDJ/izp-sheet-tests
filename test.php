@@ -193,5 +193,9 @@ if ($tester->getSkipRate() > 50) {
     echo PHP_EOL.RED."Hmm, I'm looking at your skipped tests... It sounds like very bad joke.".WHITE.PHP_EOL;
 }
 
+if ($tester->getSuccessRate() === 100) {
+    echo PHP_EOL.GREEN."Hooray! You're done! So, you can submit the project and expect many points!".WHITE.PHP_EOL;
+}
+
 // Exit code for Gitlab
 exit($tester->getFinalExitCode());
