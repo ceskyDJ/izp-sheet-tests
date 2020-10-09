@@ -177,6 +177,13 @@ $tester->createTest()
     ->addParams("-d ; irow -5")
     ->setFileInput($elmFunInput)
     ->setExpExitCode(1);
+// drow with R = 0
+$tester->createTest()
+    ->setName("drow with R = 0")
+    ->setScript($script)
+    ->addParams("-d ; drow 0")
+    ->setFileInput($elmFunInput)
+    ->setExpExitCode(1);
 
 $tester->runTests($successCallback, $failCallback);
 
