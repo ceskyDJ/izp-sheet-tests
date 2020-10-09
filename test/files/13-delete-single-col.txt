@@ -1,0 +1,9 @@
+Jméno;Příjmení;Částka
+Michal;Šmahel;100 Kč
+Vojtěch;Svědiroh;100 Kč
+Květa;Růžičková;20 Kč
+Martin;Vomáčka;50 Kč
+Zdeněk;Nedělka;2.000 Kč
+Jan;Vystrašil;75 Kč
+Adéla;Malá;35 Kč
+Lucie;Pochmurná;220 Kč
