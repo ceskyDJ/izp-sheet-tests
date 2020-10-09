@@ -92,6 +92,13 @@ $tester->createTest()
     ->addParams("-d ; irow 3")
     ->setFileInput("{$f}/0-elementary-functions-input.txt")
     ->setFileExpOutput("{$f}/6-add-row-before.txt");
+// Append row to the end (arow)
+$tester->createTest()
+    ->setName("Append row to the end")
+    ->setScript($script)
+    ->addParams("-d ; arow")
+    ->setFileInput("{$f}/0-elementary-functions-input.txt")
+    ->setFileExpOutput("{$f}/7-append-row.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
