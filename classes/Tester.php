@@ -107,13 +107,15 @@ class Tester
      * @param int $numberOfParams Number of real parameters of the function (default: 0)
      * @param bool $checkZero Do you want to check zero value parameter(s)?
      * @param bool $checkNegative Do you want to check negative value parameter(s)?
+     * @param bool $checkFloatingPoint Do you want to check floating point number parameter(s)?
      */
     public function generateBadInputParamsTests(
         string $script,
         string $function,
         int $numberOfParams = 0,
         bool $checkZero = true,
-        bool $checkNegative = true
+        bool $checkNegative = true,
+        bool $checkFloatingPoint = true
     ): void {
         // Bad number of parameters
         $params = "";
@@ -155,6 +157,23 @@ class Tester
 
         $this->createTest()
             ->setName("{$function} with negative value parameter(s)")
+            ->setScript($script)
+            ->addParams("-d : {$function}{$params}")
+            ->setStdIn(self::SOME_INPUT)
+            ->setExpExitCode(1);
+
+        // Floating point number parameter(s)
+        if ($numberOfParams === 0 || !$checkFloatingPoint) {
+            return;
+        }
+
+        $params = "";
+        for ($i = 0; $i < $numberOfParams; $i++) {
+            $params .= " ".rand(1, 99) / 100;
+        }
+
+        $this->createTest()
+            ->setName("{$function} with floating point number parameter(s)")
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
