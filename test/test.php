@@ -85,20 +85,28 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/5-count-points-sum.txt");
 
 // ELEMENTARY FUNCTIONS TESTS
+$elmFunInput = "{$f}/0-elementary-functions-input.txt";
 // Add row before another row (irow R)
 $tester->createTest()
     ->setName("Add row before another row")
     ->setScript($script)
     ->addParams("-d ; irow 3")
-    ->setFileInput("{$f}/0-elementary-functions-input.txt")
+    ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/6-add-row-before.txt");
 // Append row to the end (arow)
 $tester->createTest()
     ->setName("Append row to the end")
     ->setScript($script)
     ->addParams("-d ; arow")
-    ->setFileInput("{$f}/0-elementary-functions-input.txt")
+    ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/7-append-row.txt");
+// Delete single row (drow R)
+$tester->createTest()
+    ->setName("Delete single row")
+    ->setScript($script)
+    ->addParams("-d ; drow 2")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/8-delete-single-row.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
