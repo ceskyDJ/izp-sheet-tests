@@ -107,6 +107,13 @@ $tester->createTest()
     ->addParams("-d ; drow 2")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/8-delete-single-row.txt");
+// Delete single row II (drows R R)
+$tester->createTest()
+    ->setName("Delete single row II (with drows)")
+    ->setScript($script)
+    ->addParams("-d ; drows 2 2")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/8-delete-single-row.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
