@@ -163,34 +163,23 @@ $tester->createTest()
 
 // BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
 // ========================================
-// irow with R = 0
-$tester->createTest()
-    ->setName("irow with R = 0")
-    ->setScript($script)
-    ->addParams("-d ; irow 0")
-    ->setFileInput($elmFunInput)
-    ->setExpExitCode(1);
-// irow with R < 0
-$tester->createTest()
-    ->setName("irow with R = 0")
-    ->setScript($script)
-    ->addParams("-d ; irow -5")
-    ->setFileInput($elmFunInput)
-    ->setExpExitCode(1);
-// drow with R = 0
-$tester->createTest()
-    ->setName("drow with R = 0")
-    ->setScript($script)
-    ->addParams("-d ; drow 0")
-    ->setFileInput($elmFunInput)
-    ->setExpExitCode(1);
-// drow with R < 0
-$tester->createTest()
-    ->setName("drow with R < 0")
-    ->setScript($script)
-    ->addParams("-d ; drow -10")
-    ->setFileInput($elmFunInput)
-    ->setExpExitCode(1);
+$oneParamFunctions = ["irow", "drow", "icol", "dcol"];
+foreach ($oneParamFunctions as $function) {
+    // Parameter = 0
+    $tester->createTest()
+        ->setName("{$function} with R = 0")
+        ->setScript($script)
+        ->addParams("-d ; {$function} 0")
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+    // Parameter < 0
+    $tester->createTest()
+        ->setName("{$function} with R < 0")
+        ->setScript($script)
+        ->addParams(sprintf("-d ; %s %d", $function, rand(-20, -1)))
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+}
 // drows with N = M = 0
 $tester->createTest()
     ->setName("drows with N = M = 0")
