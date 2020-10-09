@@ -22,7 +22,7 @@ unit:
     - cp sheet tests/tmp/sheet
     - cd tests
     - php -v
-    - php test/test.php
+    - php test.php
 
 cppcheck:
   stage: test
