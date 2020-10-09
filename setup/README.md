@@ -51,3 +51,5 @@ git push origin master
 ```
 5. Hotovo - v Gitlabu se po nahrání commitu již automaticky spustí
 testy. Jejich výsledek je napsaný u každého commitu.
+
+![Ilustrační obrázek](assets/commit-with-pipelines-result.png)
