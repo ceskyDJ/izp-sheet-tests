@@ -160,6 +160,17 @@ $tester->createTest()
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
 
+
+// BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
+// ========================================
+// irow with R = 0
+$tester->createTest()
+    ->setName("irow with R = 0")
+    ->setScript($script)
+    ->addParams("-d ; irow 0")
+    ->setFileInput($elmFunInput)
+    ->setExpExitCode(1);
+
 $tester->runTests($successCallback, $failCallback);
 
 // Summary report
