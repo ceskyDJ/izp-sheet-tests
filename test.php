@@ -172,6 +172,15 @@ foreach ($elementaryFunctions as $function => $numberOfParameters) {
     $tester->generateBadInputParamsTests($script, $function, $numberOfParameters);
 }
 
+// GENERAL BAD INPUTS
+// ==================
+// Empty input file
+$tester->createTest()
+    ->setName("Empty input file")
+    ->setScript($script)
+    ->setInput("")
+    ->setExpExitCode(1);
+
 $tester->runTests($successCallback, $failCallback);
 
 // Summary report
