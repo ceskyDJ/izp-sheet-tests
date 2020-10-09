@@ -18,6 +18,14 @@ class Tester
      */
     private const DEFAULT_EXIT_CODE = 9999;
     /**
+     * Some valid input for testing exit codes
+     */
+    private const SOME_INPUT = [
+        "Jméno:Příjmení:Částka:Zaplaceno",
+        "Michal:Šmahel:100 Kč:9. 10. 2020",
+        "Vojtěch:Svědiroh:100 Kč:9. 10. 2020"
+    ];
+    /**
      * Temporary file for simulate production conditions
      */
     private const TMP_FILE = "tmp/sample.csv";
@@ -89,6 +97,68 @@ class Tester
     {
         // 254 is the biggest usable exit code
         return ($this->failed <= 254 ? $this->failed : 254);
+    }
+
+    /**
+     * Generates set of tests with providing bad input parameters to specific function
+     *
+     * @param string $script Script path
+     * @param string $function Function to test
+     * @param int $numberOfParams Number of real parameters of the function (default: 0)
+     * @param bool $checkZero Do you want to check zero value parameter(s)?
+     * @param bool $checkNegative Do you want to check negative value parameter(s)?
+     */
+    public function generateBadInputParamsTests(
+        string $script,
+        string $function,
+        int $numberOfParams = 0,
+        bool $checkZero = true,
+        bool $checkNegative = true
+    ): void {
+        // Bad number of parameters
+        $params = "";
+        $fakeNumOfParams = rand($numberOfParams + 1, $numberOfParams + 5);
+        for ($i = 0; $i < $fakeNumOfParams; $i++) {
+            $params .= " ".rand(1, 20);
+        }
+
+        $this->createTest()
+            ->setName("{$function} with bad number of parameters")
+            ->setScript($script)
+            ->addParams("-d : {$function}{$params}")
+            ->setStdIn(self::SOME_INPUT)
+            ->setExpExitCode(1);
+
+        // Zero value parameter(s)
+        if ($numberOfParams === 0 || !$checkZero) {
+            return;
+        }
+
+        $params = str_repeat(" 0", $numberOfParams);
+
+        $this->createTest()
+            ->setName("{$function} with zero value parameter(s)")
+            ->setScript($script)
+            ->addParams("-d : {$function}{$params}")
+            ->setStdIn(self::SOME_INPUT)
+            ->setExpExitCode(1);
+
+        // Negative value parameter(s)
+        if ($numberOfParams === 0 || !$checkNegative) {
+            return;
+        }
+
+        $params = "";
+        for ($i = 0; $i < $numberOfParams; $i++) {
+            $params .= " ".rand(-20, -1);
+        }
+
+        $this->createTest()
+            ->setName("{$function} with negative value parameter(s)")
+            ->setScript($script)
+            ->addParams("-d : {$function}{$params}")
+            ->setStdIn(self::SOME_INPUT)
+            ->setExpExitCode(1);
     }
 
     /**
