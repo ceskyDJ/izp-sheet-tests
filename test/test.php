@@ -163,39 +163,13 @@ $tester->createTest()
 
 // BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
 // ========================================
-$oneParamFunctions = ["irow", "drow", "icol", "dcol"];
-foreach ($oneParamFunctions as $function) {
-    // Parameter = 0
-    $tester->createTest()
-        ->setName("{$function} with R = 0")
-        ->setScript($script)
-        ->addParams("-d : {$function} 0")
-        ->setFileInput($elmFunInput)
-        ->setExpExitCode(1);
-    // Parameter < 0
-    $tester->createTest()
-        ->setName("{$function} with R < 0")
-        ->setScript($script)
-        ->addParams(sprintf("-d : %s %d", $function, rand(-20, -1)))
-        ->setFileInput($elmFunInput)
-        ->setExpExitCode(1);
-}
-$twoParamFunctions = ["drows", "dcols"];
-foreach ($twoParamFunctions as $function) {
-    // Parameters = 0
-    $tester->createTest()
-        ->setName("{$function} with N = M = 0")
-        ->setScript($script)
-        ->addParams("-d : {$function} 0 0")
-        ->setFileInput($elmFunInput)
-        ->setExpExitCode(1);
-    // Parameters < 0
-    $tester->createTest()
-        ->setName("{$function} with N < 0 && M < 0")
-        ->setScript($script)
-        ->addParams(sprintf("-d : %s %d %d", $function, rand(-20, -1), rand(-20, -1)))
-        ->setFileInput($elmFunInput)
-        ->setExpExitCode(1);
+$elementaryFunctions = [
+    "arow" => 0, "acol" => 0, "irow" => 1, "drow" => 1, "icol" => 1, "dcol" => 1, "drows" => 2, "dcols" => 2
+];
+
+// Tests: bad number of params, zero value params, negative value params
+foreach ($elementaryFunctions as $function => $numberOfParameters) {
+    $tester->generateBadInputParamsTests($script, $function, $numberOfParameters);
 }
 
 $tester->runTests($successCallback, $failCallback);
