@@ -84,14 +84,20 @@ $tester->runTests($successCallback, $failCallback);
 // Summary report
 $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getTestsSum(), $tester->getSuccessRate());
 $failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
+$skipRow = sprintf("Skipped tests: \t\t%d / %d (%d %%)", $tester->getSkipped(), $tester->getTestsSum(), $tester->getSkipRate());
 
 echo WHITE.str_repeat("=", 37).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
+echo WHITE.$skipRow.PHP_EOL;
 
-//Motivational easter egg
-if($tester->getSuccessRate() < 50) {
+// Motivational easter eggs
+if (($tester->getSuccessRate() + $tester->getSkipRate()) < 50) {
     echo PHP_EOL.RED."\"Hej, tvůj soft... k hovnu.\" - Ivan Vanko".WHITE.PHP_EOL;
+}
+
+if ($tester->getSkipRate() > 50) {
+    echo PHP_EOL.RED."Hmm, I'm looking at your skipped tests... It sounds like very bad joke.".WHITE.PHP_EOL;
 }
 
 // Exit code for Gitlab

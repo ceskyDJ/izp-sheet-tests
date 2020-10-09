@@ -38,6 +38,10 @@ class Test
      * @var int Expected exit code returned by the C script
      */
     private int $expExit = 0;
+    /**
+     * @var bool Is this test required to be successful?
+     */
+    private bool $required = true;
 
     /**
      * Test constructor
@@ -260,6 +264,30 @@ class Test
     public function setExpExitCode(int $expExit): Test
     {
         $this->expExit = $expExit;
+
+        return $this;
+    }
+
+    /**
+     * Getter for required state
+     *
+     * @return bool Is this test required to be successful?
+     */
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    /**
+     * Setter for required state
+     *
+     * @param bool $required Is this test required to be successful?
+     *
+     * @return Test Test's instance
+     */
+    public function setRequired(bool $required): Test
+    {
+        $this->required = $required;
 
         return $this;
     }
