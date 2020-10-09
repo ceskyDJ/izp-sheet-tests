@@ -33,7 +33,7 @@ class Test
     /**
      * @var array Expected output data from the C script
      */
-    private array $expStdOut;
+    private array $expStdOut = [];
     /**
      * @var int Expected exit code returned by the C script
      */

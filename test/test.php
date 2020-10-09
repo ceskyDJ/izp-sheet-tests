@@ -93,72 +93,110 @@ $elmFunInput = "{$f}/0-elementary-functions-input.txt";
 $tester->createTest()
     ->setName("Add row before another row")
     ->setScript($script)
-    ->addParams("-d ; irow 3")
+    ->addParams("-d : irow 3")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/6-add-row-before.txt");
 // Append row to the end (arow)
 $tester->createTest()
     ->setName("Append row to the end")
     ->setScript($script)
-    ->addParams("-d ; arow")
+    ->addParams("-d : arow")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/7-append-row.txt");
 // Delete single row (drow R)
 $tester->createTest()
     ->setName("Delete single row")
     ->setScript($script)
-    ->addParams("-d ; drow 2")
+    ->addParams("-d : drow 2")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/8-delete-single-row.txt");
 // Delete single row II (drows R R)
 $tester->createTest()
     ->setName("Delete single row II (with drows)")
     ->setScript($script)
-    ->addParams("-d ; drows 2 2")
+    ->addParams("-d : drows 2 2")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/8-delete-single-row.txt");
 // Delete multiple rows (drows N M)
 $tester->createTest()
     ->setName("Delete multiple rows")
     ->setScript($script)
-    ->addParams("-d ; drows 2 4")
+    ->addParams("-d : drows 2 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/10-delete-multiple-rows.txt");
 // Add column before another column (icol C)
 $tester->createTest()
     ->setName("Add column before another column")
     ->setScript($script)
-    ->addParams("-d ; icol 3")
+    ->addParams("-d : icol 3")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/11-add-col-before.txt");
 // Append column to the end (acol)
 $tester->createTest()
     ->setName("Append column to the end")
     ->setScript($script)
-    ->addParams("-d ; acol")
+    ->addParams("-d : acol")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/12-append-col.txt");
 // Delete single column (dcol C)
 $tester->createTest()
     ->setName("Delete single column")
     ->setScript($script)
-    ->addParams("-d ; dcol 4")
+    ->addParams("-d : dcol 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/13-delete-single-col.txt");
 // Delete single column II (dcols C C)
 $tester->createTest()
     ->setName("Delete single column II (with dcols)")
     ->setScript($script)
-    ->addParams("-d ; dcols 4 4")
+    ->addParams("-d : dcols 4 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/13-delete-single-col.txt");
 // Delete multiple columns (dcols N M)
 $tester->createTest()
     ->setName("Delete multiple columns")
     ->setScript($script)
-    ->addParams("-d ; dcols 2 4")
+    ->addParams("-d : dcols 2 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
+
+
+// BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
+// ========================================
+$oneParamFunctions = ["irow", "drow", "icol", "dcol"];
+foreach ($oneParamFunctions as $function) {
+    // Parameter = 0
+    $tester->createTest()
+        ->setName("{$function} with R = 0")
+        ->setScript($script)
+        ->addParams("-d : {$function} 0")
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+    // Parameter < 0
+    $tester->createTest()
+        ->setName("{$function} with R < 0")
+        ->setScript($script)
+        ->addParams(sprintf("-d : %s %d", $function, rand(-20, -1)))
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+}
+$twoParamFunctions = ["drows", "dcols"];
+foreach ($twoParamFunctions as $function) {
+    // Parameters = 0
+    $tester->createTest()
+        ->setName("{$function} with N = M = 0")
+        ->setScript($script)
+        ->addParams("-d : {$function} 0 0")
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+    // Parameters < 0
+    $tester->createTest()
+        ->setName("{$function} with N < 0 && M < 0")
+        ->setScript($script)
+        ->addParams(sprintf("-d : %s %d %d", $function, rand(-20, -1), rand(-20, -1)))
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+}
 
 $tester->runTests($successCallback, $failCallback);
 
