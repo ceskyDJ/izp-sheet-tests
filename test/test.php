@@ -42,12 +42,17 @@ $failCallback = function (ErrorInScriptException $e) {
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
 };
 
+// STANDARD BEHAVIOUR TESTS
+// ========================
 // Simple call
 $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
     ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/1-simple-call.txt");
+
+// TESTS ACCORDING TO SCHOOL SAMPLES
+// =================================
 // Add week column
 $tester->createTest()
     ->setName("Add column to the left (1st school sample)")
@@ -78,6 +83,15 @@ $tester->createTest()
     ->addParams("-d : rsum 3 2 14")
     ->setFileInput("{$f}/4-add-points-sum-row.txt")
     ->setFileExpOutput("{$f}/5-count-points-sum.txt");
+
+// ELEMENTARY FUNCTIONS TESTS
+// Add row before another row (irow R)
+$tester->createTest()
+    ->setName("Add row before another row")
+    ->setScript($script)
+    ->addParams("-d ; irow 3")
+    ->setFileInput("{$f}/0-elementary-functions-input.txt")
+    ->setFileExpOutput("{$f}/6-add-row-before.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
