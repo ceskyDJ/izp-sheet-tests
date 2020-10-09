@@ -128,6 +128,13 @@ $tester->createTest()
     ->addParams("-d ; icol 3")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/11-add-col-before.txt");
+// Append column to the end (acol)
+$tester->createTest()
+    ->setName("Append column to the end")
+    ->setScript($script)
+    ->addParams("-d ; acol")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/12-append-col.txt");
 
 $tester->runTests($successCallback, $failCallback);
 

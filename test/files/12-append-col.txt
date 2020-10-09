@@ -1,0 +1,9 @@
+Jméno;Příjmení;Částka;Zaplaceno;
+Michal;Šmahel;100 Kč;9. 10. 2020;
+Vojtěch;Svědiroh;100 Kč;9. 10. 2020;
+Květa;Růžičková;20 Kč; 12. 9. 2020;
+Martin;Vomáčka;50 Kč;5. 10. 2020;
+Zdeněk;Nedělka;2.000 Kč;12. 10. 2020;
+Jan;Vystrašil;75 Kč;7. 10. 2020;
+Adéla;Malá;35 Kč;2. 10. 2020;
+Lucie;Pochmurná;220 Kč; 6. 10. 2020;
