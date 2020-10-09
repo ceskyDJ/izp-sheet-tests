@@ -191,6 +191,13 @@ $tester->createTest()
     ->addParams("-d ; drow -10")
     ->setFileInput($elmFunInput)
     ->setExpExitCode(1);
+// drows with N = M = 0
+$tester->createTest()
+    ->setName("drows with N = M = 0")
+    ->setScript($script)
+    ->addParams("-d ; drows 0 0")
+    ->setFileInput($elmFunInput)
+    ->setExpExitCode(1);
 
 $tester->runTests($successCallback, $failCallback);
 
