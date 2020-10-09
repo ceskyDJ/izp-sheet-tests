@@ -35,6 +35,10 @@ class Tester
      * @var int Number of failed tests
      */
     private int $failed = 0;
+    /**
+     * @var int Number of skipped non-required test with fail result
+     */
+    private int $skipped = 0;
 
     /**
      * Creates new test
@@ -65,7 +69,12 @@ class Tester
                 $this->successful++;
                 $successCallback($test->getNumber(), $test->getName());
             } catch (ErrorInScriptException $e) {
-                $this->failed++;
+                if ($test->isRequired()) {
+                    $this->failed++;
+                } else {
+                    $this->skipped++;
+                }
+
                 $failCallback($e);
             }
         }
@@ -203,6 +212,21 @@ class Tester
     }
 
     /**
+     * Returns summary skip rate
+     *
+     * @return int Summary skip rate
+     */
+    public function getSkipRate(): int
+    {
+        // Fix for division by zero error
+        if ($this->getTestsSum() === 0) {
+            return 0;
+        }
+
+        return (int)round(($this->skipped / $this->getTestsSum()) * 100, 0);
+    }
+
+    /**
      * Getter for number of successful tests
      *
      * @return int Number of successful tests
@@ -220,5 +244,17 @@ class Tester
     public function getFailed(): int
     {
         return $this->failed;
+    }
+
+    /**
+     * Getter for number of skipped tests
+     *
+     * Skip test is the test with fail status and required set to false
+     *
+     * @return int Number of skipped tests
+     */
+    public function getSkipped(): int
+    {
+        return $this->skipped;
     }
 }
