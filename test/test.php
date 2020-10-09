@@ -149,6 +149,13 @@ $tester->createTest()
     ->addParams("-d ; dcols 4 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/13-delete-single-col.txt");
+// Delete multiple columns (dcols M N)
+$tester->createTest()
+    ->setName("Delete multiple columns")
+    ->setScript($script)
+    ->addParams("-d ; dcols 2 4")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
