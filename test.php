@@ -31,7 +31,7 @@ require "classes/Tester.php";
 
 $tester = new Tester();
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
-$f = "test/files";
+$f = "files";
 
 // Callback for successful tests (required for automation)
 $successCallback = function (int $number, string $name) {
