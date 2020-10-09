@@ -180,13 +180,23 @@ foreach ($oneParamFunctions as $function) {
         ->setFileInput($elmFunInput)
         ->setExpExitCode(1);
 }
-// drows with N = M = 0
-$tester->createTest()
-    ->setName("drows with N = M = 0")
-    ->setScript($script)
-    ->addParams("-d ; drows 0 0")
-    ->setFileInput($elmFunInput)
-    ->setExpExitCode(1);
+$twoParamFunctions = ["drows", "dcols"];
+foreach ($twoParamFunctions as $function) {
+    // Parameters = 0
+    $tester->createTest()
+        ->setName("{$function} with N = M = 0")
+        ->setScript($script)
+        ->addParams("-d ; {$function} 0 0")
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+    // Parameters < 0
+    $tester->createTest()
+        ->setName("{$function} with N < 0 && M < 0")
+        ->setScript($script)
+        ->addParams(sprintf("-d ; %s %d %d", $function, rand(-20, -1), rand(-20, -1)))
+        ->setFileInput($elmFunInput)
+        ->setExpExitCode(1);
+}
 
 $tester->runTests($successCallback, $failCallback);
 
