@@ -142,6 +142,13 @@ $tester->createTest()
     ->addParams("-d ; dcol 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/13-delete-single-col.txt");
+// Delete single column II (dcols C C)
+$tester->createTest()
+    ->setName("Delete single column II (with dcols)")
+    ->setScript($script)
+    ->addParams("-d ; dcols 4 4")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/13-delete-single-col.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
