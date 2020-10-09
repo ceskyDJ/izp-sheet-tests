@@ -5,4 +5,4 @@
 gcc -std=c99 -Wall -Wextra -Werror sheet.c -o tmp/sheet
 
 # Run PHP tests
-php test/test.php
+php test.php
