@@ -114,6 +114,13 @@ $tester->createTest()
     ->addParams("-d ; drows 2 2")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/8-delete-single-row.txt");
+// Delete multiple rows (drows M N)
+$tester->createTest()
+    ->setName("Delete multiple rows")
+    ->setScript($script)
+    ->addParams("-d ; drows 2 4")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/10-delete-multiple-rows.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
