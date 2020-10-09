@@ -51,6 +51,7 @@ $tester->createTest()
     ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/1-simple-call.txt");
 
+
 // TESTS ACCORDING TO SCHOOL SAMPLES
 // =================================
 // Add week column
@@ -84,7 +85,9 @@ $tester->createTest()
     ->setFileInput("{$f}/4-add-points-sum-row.txt")
     ->setFileExpOutput("{$f}/5-count-points-sum.txt");
 
+
 // ELEMENTARY FUNCTIONS TESTS
+// ==========================
 $elmFunInput = "{$f}/0-elementary-functions-input.txt";
 // Add row before another row (irow R)
 $tester->createTest()
@@ -114,7 +117,7 @@ $tester->createTest()
     ->addParams("-d ; drows 2 2")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/8-delete-single-row.txt");
-// Delete multiple rows (drows M N)
+// Delete multiple rows (drows N M)
 $tester->createTest()
     ->setName("Delete multiple rows")
     ->setScript($script)
@@ -149,7 +152,7 @@ $tester->createTest()
     ->addParams("-d ; dcols 4 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/13-delete-single-col.txt");
-// Delete multiple columns (dcols M N)
+// Delete multiple columns (dcols N M)
 $tester->createTest()
     ->setName("Delete multiple columns")
     ->setScript($script)
