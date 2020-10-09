@@ -89,5 +89,10 @@ echo WHITE.str_repeat("=", 37).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
 
+//Motivational easter egg
+if($tester->getSuccessRate() < 50) {
+    echo PHP_EOL.RED."\"Hej, tvůj soft... k hovnu.\" - Ivan Vanko".WHITE.PHP_EOL;
+}
+
 // Exit code for Gitlab
 exit($tester->getFinalExitCode());
