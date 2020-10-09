@@ -35,4 +35,19 @@ Dále se již počítá s tím, že používáš Git a máš ho provázaný
 s repozitářem od Gitlabu. Pokud si nevíš rady ani s tímto,
 zkus googlit, případně se ozvi na Discordu.
 
-1. TODO: Dopsat návod...
+1. V root adresáři svého projektu (bude tam nejspíše také 
+soubor se zdrojovými kódy projektu) vytvoř soubor ```.gitlab-ci.yml```.
+2. Zobraz si [vzorový obsah souboru .gitlab-ci.yml]
+(https://gitlab.com/ceskyDJ/izp-sheet/-/blob/master/setup/.gitlab-ci.yml).
+3. Toto nastavení by mělo být univerzální, můžeš ho tedy zkopírovat
+a vložit do nově vytvořeného ```.gitlab-ci.yml``` souboru ve tvém
+projektu.
+4. Nyní jen stačí commitnout změny a poslat je do repozitáře
+na Gitlabu.
+```shell script
+git add .gitlab-ci.yml
+git commit -m "Added Gitlab config file for pipelines tests"
+git push origin master
+```
+5. Hotovo - v Gitlabu se po nahrání commitu již automaticky spustí
+testy. Jejich výsledek je napsaný u každého commitu.
