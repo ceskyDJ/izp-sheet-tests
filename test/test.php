@@ -121,6 +121,13 @@ $tester->createTest()
     ->addParams("-d ; drows 2 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/10-delete-multiple-rows.txt");
+// Add column before another column (icol C)
+$tester->createTest()
+    ->setName("Add column before another column")
+    ->setScript($script)
+    ->addParams("-d ; icol 3")
+    ->setFileInput($elmFunInput)
+    ->setFileExpOutput("{$f}/11-add-col-before.txt");
 
 $tester->runTests($successCallback, $failCallback);
 
