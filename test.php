@@ -52,40 +52,6 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/1-simple-call.txt");
 
 
-// TESTS ACCORDING TO SCHOOL SAMPLES
-// =================================
-// Add week column
-$tester->createTest()
-    ->setName("Add column to the left (1st school sample)")
-    ->setScript($script)
-    ->addParams("-d : icol 1")
-    ->addParams("-d : rows 1 1 cset 1 Tyden")
-    ->setFileInput("{$f}/0-school-input.txt")
-    ->setFileExpOutput("{$f}/2-add-week-column.txt");
-// Fill week column
-$tester->createTest()
-    ->setName("Fill week column (2nd school sample)")
-    ->setScript($script)
-    ->addParams("-d : rseq 1 2 - 1")
-    ->setFileInput("{$f}/2-add-week-column.txt") // Follows the previous test
-    ->setFileExpOutput("{$f}/3-fill-week-column.txt");
-// Add points summary row
-$tester->createTest()
-    ->setName("Add points summary row (3rd school sample)")
-    ->setScript($script)
-    ->addParams("-d : arow")
-    ->addParams("-d : rows - - cset 2 \"celkem bodu\"")
-    ->setFileInput("{$f}/3-fill-week-column.txt") // Follows the previous test
-    ->setFileExpOutput("{$f}/4-add-points-sum-row.txt");
-// Count points summary
-$tester->createTest()
-    ->setName("Count points summary (4th school sample)")
-    ->setScript($script)
-    ->addParams("-d : rsum 3 2 14")
-    ->setFileInput("{$f}/4-add-points-sum-row.txt")
-    ->setFileExpOutput("{$f}/5-count-points-sum.txt");
-
-
 // ELEMENTARY FUNCTIONS TESTS
 // ==========================
 $elmFunInput = "{$f}/0-elementary-functions-input.txt";
@@ -159,6 +125,42 @@ $tester->createTest()
     ->addParams("-d : dcols 2 4")
     ->setFileInput($elmFunInput)
     ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
+
+
+// TESTS ACCORDING TO SCHOOL SAMPLES
+// =================================
+// Add week column
+$tester->createTest()
+    ->setName("Add column to the left (1st school sample)")
+    ->setScript($script)
+    ->addParams("-d : icol 1")
+    ->addParams("-d : rows 1 1 cset 1 Tyden")
+    ->setFileInput("{$f}/0-school-input.txt")
+    ->setFileExpOutput("{$f}/2-add-week-column.txt");
+// Fill week column
+$tester->createTest()
+    ->setName("Fill week column (2nd school sample)")
+    ->setScript($script)
+    ->addParams("-d : rseq 1 2 - 1")
+    ->setFileInput("{$f}/2-add-week-column.txt") // Follows the previous test
+    ->setFileExpOutput("{$f}/3-fill-week-column.txt")
+    ->setRequired(false);
+// Add points summary row
+$tester->createTest()
+    ->setName("Add points summary row (3rd school sample)")
+    ->setScript($script)
+    ->addParams("-d : arow")
+    ->addParams("-d : rows - - cset 2 \"celkem bodu\"")
+    ->setFileInput("{$f}/3-fill-week-column.txt") // Follows the previous test
+    ->setFileExpOutput("{$f}/4-add-points-sum-row.txt");
+// Count points summary
+$tester->createTest()
+    ->setName("Count points summary (4th school sample)")
+    ->setScript($script)
+    ->addParams("-d : rsum 3 2 14")
+    ->setFileInput("{$f}/4-add-points-sum-row.txt") // Follows the previous test
+    ->setFileExpOutput("{$f}/5-count-points-sum.txt")
+    ->setRequired(false);
 
 
 // BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
