@@ -66,7 +66,13 @@ $tester->createTest()
     ->setScript($script)
     ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/1-simple-call.txt");
-
+// Many delimiters
+$tester->createTest()
+    ->setName("Many delimiters")
+    ->setScript($script)
+    ->addParams("-d :+-/")
+    ->setFileInput("{$f}/0-many-delimiters-input.txt")
+    ->setFileExpOutput("{$f}/16-many-delimiters.txt");
 
 // ELEMENTARY FUNCTIONS
 // ====================
