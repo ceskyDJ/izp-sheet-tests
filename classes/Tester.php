@@ -34,6 +34,14 @@ class Tester
      * @var Test[] Tests for the try
      */
     private array $tests = [];
+    /**
+     * @var array Difficulty levels
+     */
+    private array $levels = [];
+    /**
+     * @var bool Should be all new tests set as non-required (skipped if fail)?
+     */
+    private bool $autoSkip = false;
 
     /**
      * @var int Number of successful tests
@@ -58,7 +66,15 @@ class Tester
         // Tests are numbered from 1 --> +1
         $number = count($this->tests) + 1;
 
-        return ($this->tests[] = new Test($number));
+        $test = $this->tests[] = (new Test($number))
+            ->setLevel($this->getActualLevel());
+
+        // Set non-required state if auto skipping is enabled
+        if ($this->autoSkip) {
+            $test->setRequired(false);
+        }
+
+        return $test;
     }
 
     /**
@@ -66,10 +82,16 @@ class Tester
      *
      * @param callable $successCallback What to call if the test was successful
      * @param callable $failCallback What to call if the test failed
+     * @param callable $skipCallback What to call if the test was skipped
      */
-    public function runTests(callable $successCallback, callable $failCallback): void
+    public function runTests(callable $successCallback, callable $failCallback, callable $skipCallback): void
     {
+        $level = -1;
         foreach ($this->tests as $test) {
+            if ($test->getLevel() > $level) {
+                $this->activateNextLevel($level = $test->getLevel());
+            }
+
             try {
                 $this->runIndividualTest($test);
 
@@ -77,26 +99,40 @@ class Tester
                 $this->successful++;
                 $successCallback($test->getNumber(), $test->getName());
             } catch (ErrorInScriptException $e) {
-                if ($test->isRequired()) {
+                if (!$this->autoSkip && $test->isRequired()) {
                     $this->failed++;
+                    $failCallback($e);
                 } else {
                     $this->skipped++;
+                    $skipCallback($test->getNumber(), $test->getName());
                 }
-
-                $failCallback($e);
             }
         }
     }
 
     /**
-     * Returns final exit code depends on number of failed tests
+     * Starts new difficulty level
      *
-     * @return int Final exit code to return as result of testing
+     * @param int $level Level number
+     * @param string $name Level name
+     * @param callable $callback Something to call when the new level starts
      */
-    public function getFinalExitCode(): int
+    public function startNewLevel(int $level, string $name, callable $callback): void
     {
-        // 254 is the biggest usable exit code
-        return ($this->failed <= 254 ? $this->failed : 254);
+        // Level number has to be unique
+        if (key_exists($level, $this->levels)) {
+            throw new Error(sprintf(
+                "Level number is unique. You use %d twice (for %s and %s).",
+                $level,
+                $this->levels[$level]['name'],
+                $name
+            ));
+        }
+
+        $this->levels[$level] = [
+            'name' => $name,
+            'callback' => $callback
+        ];
     }
 
     /**
@@ -234,6 +270,27 @@ class Tester
     }
 
     /**
+     * Activates the next difficualty level
+     *
+     * @param int $nextLevel Next level's number
+     */
+    private function activateNextLevel(int $nextLevel): void
+    {
+        // Callback before next level
+        $this->levels[$nextLevel]['callback']($nextLevel, $this->levels[$nextLevel]['name']);
+
+        // If auto skip is enabled, there is no sense to regulate tests
+        if ($this->autoSkip) {
+            return;
+        }
+
+        // If low-level tests weren't successful, automatically skip the next one
+        if ($this->failed !== 0) {
+            $this->setAutoSkip(true);
+        }
+    }
+
+    /**
      * Prepares test CSV file (input for the C script)
      *
      * @param string $name File name
@@ -258,6 +315,27 @@ class Tester
     private function getRealPath(string $relativePath): string
     {
         return str_replace(" ", "\ ", realpath($relativePath));
+    }
+
+    /**
+     * Returns actual test's difficulty level
+     *
+     * @return int Actual test's difficulty level
+     */
+    private function getActualLevel(): int
+    {
+        return (int)array_key_last($this->levels);
+    }
+
+    /**
+     * Returns final exit code depends on number of failed tests
+     *
+     * @return int Final exit code to return as result of testing
+     */
+    public function getFinalExitCode(): int
+    {
+        // 254 is the biggest usable exit code
+        return ($this->failed <= 254 ? $this->failed : 254);
     }
 
     /**
@@ -345,5 +423,15 @@ class Tester
     public function getSkipped(): int
     {
         return $this->skipped;
+    }
+
+    /**
+     * Setter for auto skip state
+     *
+     * @param bool $autoSkip Should be all newly created tests set as non required?
+     */
+    public function setAutoSkip(bool $autoSkip): void
+    {
+        $this->autoSkip = $autoSkip;
     }
 }

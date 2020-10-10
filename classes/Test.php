@@ -15,6 +15,10 @@ class Test
      */
     private int $number;
     /**
+     * @var int Test's difficulty level
+     */
+    private int $level = 0;
+    /**
      * @var string Test's name
      */
     private string $name;
@@ -61,6 +65,30 @@ class Test
     public function getNumber(): int
     {
         return $this->number;
+    }
+
+    /**
+     * Getter for test's level
+     *
+     * @return int Test's difficulty level
+     */
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    /**
+     * Setter for test's level
+     *
+     * @param int $level Test's difficulty level
+     *
+     * @return Test Test's instance
+     */
+    public function setLevel(int $level): Test
+    {
+        $this->level = $level;
+
+        return $this;
     }
 
     /**

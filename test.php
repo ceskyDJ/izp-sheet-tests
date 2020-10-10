@@ -34,6 +34,9 @@ $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's corre
 $f = "files";
 
 // Callback for successful tests (required for automation)
+$newLevelCallback = function (int $level, string $name) {
+    echo WHITE."<< Started level {$level} ({$name}) >>".PHP_EOL;
+};
 $successCallback = function (int $number, string $name) {
     echo GREEN."[{$number}] {$name}: The test was successful.".WHITE.PHP_EOL;
 };
@@ -41,9 +44,14 @@ $failCallback = function (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Output error" : "Exit code error";
     echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
 };
+$skipCallback = function (int $number, string $name) {
+    echo WHITE."[{$number}] {$name}: The test was skipped.".PHP_EOL;
+};
 
-// STANDARD BEHAVIOUR TESTS
-// ========================
+// STANDARD BEHAVIOUR
+// ==================
+$tester->startNewLevel(0, "Standard behaviour", $newLevelCallback);
+
 // Simple call
 $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
@@ -52,9 +60,11 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/1-simple-call.txt");
 
 
-// ELEMENTARY FUNCTIONS TESTS
-// ==========================
+// ELEMENTARY FUNCTIONS
+// ====================
+$tester->startNewLevel(1, "Elementary functions", $newLevelCallback);
 $elmFunInput = "{$f}/0-elementary-functions-input.txt";
+
 // Add row before another row (irow R)
 $tester->createTest()
     ->setName("Add row before another row")
@@ -127,8 +137,39 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
 
 
-// TESTS ACCORDING TO SCHOOL SAMPLES
-// =================================
+// BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
+// ========================================
+$tester->startNewLevel(2, "Bad inputs in elementary functions", $newLevelCallback);
+
+$elementaryFunctions = [
+    "arow" => 0, "acol" => 0, "irow" => 1, "drow" => 1, "icol" => 1, "dcol" => 1, "drows" => 2, "dcols" => 2
+];
+
+// Tests: bad number of params, zero value params, negative value params
+foreach ($elementaryFunctions as $function => $numberOfParameters) {
+    $tester->generateBadInputParamsTests($script, $function, $numberOfParameters);
+}
+
+
+// DATA PROCESSING FUNCTIONS
+// =========================
+//$tester->startNewLevel(3, "Data processing functions", $newLevelCallback);
+
+
+// BAD INPUTS IN DATA PROCESSING FUNCTIONS
+// =======================================
+//$tester->startNewLevel(4, "Bad inputs in data processing functions", $newLevelCallback);
+
+
+// SELECT FUNCTIONS
+// ================
+//$tester->startNewLevel(5, "Select functions", $newLevelCallback);
+
+
+// SCHOOL SAMPLES
+// ==============
+$tester->startNewLevel(6, "School samples", $newLevelCallback);
+
 // Add week column
 $tester->createTest()
     ->setName("Add column to the left (1st school sample)")
@@ -163,19 +204,15 @@ $tester->createTest()
     ->setRequired(false);
 
 
-// BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
+// ALL FUNCTIONS (COMBINED) WITH GOOD INPUT
 // ========================================
-$elementaryFunctions = [
-    "arow" => 0, "acol" => 0, "irow" => 1, "drow" => 1, "icol" => 1, "dcol" => 1, "drows" => 2, "dcols" => 2
-];
+//$tester->startNewLevel(7, "All functions with good input", $newLevelCallback);
 
-// Tests: bad number of params, zero value params, negative value params
-foreach ($elementaryFunctions as $function => $numberOfParameters) {
-    $tester->generateBadInputParamsTests($script, $function, $numberOfParameters);
-}
 
 // GENERAL BAD INPUTS
 // ==================
+$tester->startNewLevel(8, "General bad inputs", $newLevelCallback);
+
 // Empty input file
 $tester->createTest()
     ->setName("Empty input file")
@@ -183,7 +220,7 @@ $tester->createTest()
     ->setInput("")
     ->setExpExitCode(1);
 
-$tester->runTests($successCallback, $failCallback);
+$tester->runTests($successCallback, $failCallback, $skipCallback);
 
 // Summary report
 $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getTestsSum(), $tester->getSuccessRate());
