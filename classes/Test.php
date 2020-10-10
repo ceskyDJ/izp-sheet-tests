@@ -223,6 +223,13 @@ class Test
      */
     public function setInput(string $input): Test
     {
+        // Empty input doesn't have any \n, so it sets bad value to $this->stdIn (not array)
+        if ($input === "") {
+            $this->stdIn = [];
+
+            return $this;
+        }
+
         $this->stdIn = explode("\n", $input);
 
         return $this;
