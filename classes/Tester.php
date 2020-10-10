@@ -253,18 +253,18 @@ class Tester
         // Exit code testing
         if ((int)$exitCode !== $test->getExpExitCode()) {
             $errorMessage = sprintf("Exit code doesn't match (expected: \"%s\", got \"%s\").", $test->getExpExitCode(), $exitCode);
-            throw new ErrorInScriptException($errorMessage, $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_EXIT_CODE);
+            throw new ErrorInScriptException($errorMessage, $test, ErrorInScriptException::TYPE_BAD_EXIT_CODE);
         }
 
         // Output testing
         if(count($stdOut) !== count($expStdOut)) {
-            throw new ErrorInScriptException("Number of rows doesn't match.", $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_OUTPUT);
+            throw new ErrorInScriptException("Number of rows doesn't match.", $test, ErrorInScriptException::TYPE_BAD_OUTPUT);
         }
 
         foreach($stdOut as $key => $value){
             if($value != $expStdOut[$key]){
                 $errorMessage = sprintf("Output doesn't match (expected: \"%s\", got \"%s\" on line %d).", $expStdOut[$key], $value, $key + 1);
-                throw new ErrorInScriptException($errorMessage, $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_OUTPUT);
+                throw new ErrorInScriptException($errorMessage, $test, ErrorInScriptException::TYPE_BAD_OUTPUT);
             }
         }
     }

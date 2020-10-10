@@ -58,6 +58,28 @@ class Test
     }
 
     /**
+     * Returns commands tested by this test
+     *
+     * Yes, command<b>s</b>. One test can try many commands with different parameters
+     *
+     * @return string Full tested commands (script + parameters)
+     */
+    public function getTestedCommands(): string
+    {
+        $output = "";
+
+        if (empty($this->paramsGroup)) {
+            return "{$this->script}";
+        }
+
+        foreach ($this->paramsGroup as $params) {
+            $output .= "{$this->script} {$params}".PHP_EOL;
+        }
+
+        return $output;
+    }
+
+    /**
      * Getter for test's number
      *
      * @return int Test's number

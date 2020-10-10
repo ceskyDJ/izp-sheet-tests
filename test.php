@@ -10,6 +10,8 @@ declare(strict_types=1);
  * @date October 2020
  */
 
+mb_internal_encoding("UTF-8");
+
 // Script input params
 // test.php -c          Activate extended color mode (with background color)
 $args = getopt("c::");
@@ -17,10 +19,12 @@ $args = getopt("c::");
 // Colors for terminal outputs
 if (key_exists("c", $args)) {
     define("GREEN", "\e[0;32;40m");
+    define("YELLOW", "\e[0;33;40m");
     define("RED", "\e[0;31;40m");
     define("WHITE", "\e[0m");
 } else {
     define("GREEN", "\e[0;32m");
+    define("YELLOW", "\e[0;33m");
     define("RED", "\e[0;31m");
     define("WHITE", "\e[0m");
 }
@@ -35,14 +39,18 @@ $f = "files";
 
 // Callback for successful tests (required for automation)
 $newLevelCallback = function (int $level, string $name) {
-    echo WHITE."<< Started level {$level} ({$name}) >>".PHP_EOL;
+    $message = "<< Started level {$level} ({$name}) >>";
+    echo WHITE.str_repeat("-", mb_strlen($message)).PHP_EOL;
+    echo YELLOW.$message.WHITE.PHP_EOL;
 };
 $successCallback = function (int $number, string $name) {
     echo GREEN."[{$number}] {$name}: The test was successful.".WHITE.PHP_EOL;
 };
 $failCallback = function (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Output error" : "Exit code error";
-    echo RED."[{$e->getNumber()}] {$e->getTest()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
+    $test = $e->getTest();
+    echo RED."[{$test->getNumber()}] {$test->getName()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
+    echo RED."\t{$test->getTestedCommands()}".WHITE;
 };
 $skipCallback = function (int $number, string $name) {
     echo WHITE."[{$number}] {$name}: The test was skipped.".PHP_EOL;
@@ -57,7 +65,7 @@ $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
     ->setFileInput("{$f}/0-school-input.txt")
-    ->setFileExpOutput("{$f}/1-simple-call.txt");
+    ->setFileExpOutput("{$f}/1-simple-call.txt")->setRequired(false);
 
 
 // ELEMENTARY FUNCTIONS
@@ -227,7 +235,7 @@ $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessf
 $failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
 $skipRow = sprintf("Skipped tests: \t\t%d / %d (%d %%)", $tester->getSkipped(), $tester->getTestsSum(), $tester->getSkipRate());
 
-echo WHITE.str_repeat("=", 37).PHP_EOL;
+echo WHITE.str_repeat("=", 39).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
 echo WHITE.$skipRow.PHP_EOL;

@@ -20,13 +20,9 @@ class ErrorInScriptException extends Exception
     public const TYPE_BAD_EXIT_CODE = 1;
 
     /**
-     * @var int Test number (running position)
+     * @var Test Test' instance
      */
-    private int $number;
-    /**
-     * @var string Test name
-     */
-    private string $test;
+    private Test $test;
     /**
      * @var int Test type (one of the public constants)
      */
@@ -36,35 +32,23 @@ class ErrorInScriptException extends Exception
      * Constructor
      *
      * @param string $message Error message
-     * @param int $number Test running position
-     * @param string $test Test name
+     * @param Test $test Test's instance
      * @param int $type Test type (select one of the public constants)
      * @param Throwable|null $previous [optional] Previous exception
      */
-    public function __construct(string $message, int $number, string $test, int $type, ?Throwable $previous = null) {
+    public function __construct(string $message, Test $test, int $type, ?Throwable $previous = null) {
         parent::__construct($message, 0, $previous);
 
-        $this->number = $number;
         $this->test = $test;
         $this->type = $type;
     }
 
     /**
-     * Getter for test number
+     * Getter for test
      *
-     * @return int Test number (running position)
+     * @return Test Test's instance
      */
-    public function getNumber(): int
-    {
-        return $this->number;
-    }
-
-    /**
-     * Getter for test name
-     *
-     * @return string Test name
-     */
-    public function getTest(): string
+    public function getTest(): Test
     {
         return $this->test;
     }
