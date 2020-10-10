@@ -65,7 +65,7 @@ $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
     ->setFileInput("{$f}/0-school-input.txt")
-    ->setFileExpOutput("{$f}/1-simple-call.txt")->setRequired(false);
+    ->setFileExpOutput("{$f}/1-simple-call.txt");
 
 
 // ELEMENTARY FUNCTIONS
