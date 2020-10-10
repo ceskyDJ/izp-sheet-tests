@@ -233,6 +233,13 @@ $tester->createTest()
     ->setScript($script)
     ->setInput("")
     ->setExpExitCode(1);
+// Bad delimiters in input
+$tester->createTest()
+    ->setName("Bad delimiters in input")
+    ->setScript($script)
+    ->addParams("-d :")
+    ->setFileInput("{$f}/0-many-delimiters-input.txt")
+    ->setExpExitCode(1);
 
 $tester->runTests($successCallback, $failCallback, $skipCallback);
 
