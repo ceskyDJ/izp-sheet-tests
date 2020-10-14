@@ -246,7 +246,7 @@ class Tester
             // Exit code of the end process (C script ran with end parameters) can be different,
             // it depends on expected exit code set up for individual test
             if ($i !== (count($paramsGroup) - 1) && $exitCode !== 0) {
-                throw new ErrorInScriptException("Child process ended with error. Returned exit code: \"{$exitCode}\".", $test->getNumber(), $test->getName(), ErrorInScriptException::TYPE_BAD_EXIT_CODE);
+                throw new ErrorInScriptException("Child process ended with error. Returned exit code: \"{$exitCode}\".", $test, ErrorInScriptException::TYPE_BAD_EXIT_CODE);
             }
         }
 
