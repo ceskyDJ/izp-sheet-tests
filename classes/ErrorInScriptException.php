@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Michal ŠMAHEL <admin@ceskydj.cz>
  * @date October 2020
+ * @noinspection PhpIllegalPsrClassPathInspection
  */
 class ErrorInScriptException extends Exception
 {

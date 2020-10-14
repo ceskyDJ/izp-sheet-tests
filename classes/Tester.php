@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Michal ŠMAHEL <admin@ceskydj.cz>
  * @author Vojtěch SVĚDIROH
  * @date October 2020
+ * @noinspection PhpIllegalPsrClassPathInspection
  */
 class Tester
 {

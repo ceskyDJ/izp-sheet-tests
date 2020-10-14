@@ -7,6 +7,7 @@
  *
  * @author Michal ŠMAHEL <admin@ceskydj.cz>
  * @date October 2020
+ * @noinspection PhpIllegalPsrClassPathInspection
  */
 class Test
 {
@@ -156,7 +157,7 @@ class Test
      */
     public function setScript(string $script): Test
     {
-        $this->script = strstr($script, "/") ? $script : "./{$script}";;
+        $this->script = strstr($script, "/") ? $script : "./{$script}";
 
         return $this;
     }
