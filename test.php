@@ -53,7 +53,7 @@ $failCallback = function (ErrorInScriptException $e) {
     $type = $e->getType() === ErrorInScriptException::TYPE_BAD_OUTPUT ? "Output error" : "Exit code error";
     $test = $e->getTest();
     echo RED."[{$test->getNumber()}] {$test->getName()}: {$type} - {$e->getMessage()}".WHITE.PHP_EOL;
-    echo RED."\t{$test->getTestedCommands()}".WHITE;
+    echo RED."\t{$test->getTestedCommands()}".WHITE.PHP_EOL;
 };
 $skipCallback = function (int $number, string $name) {
     echo WHITE."[{$number}] {$name}: The test was skipped.".PHP_EOL;
