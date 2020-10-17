@@ -167,8 +167,16 @@ foreach ($elementaryFunctions as $function => $numberOfParameters) {
 
 // DATA PROCESSING FUNCTIONS
 // =========================
-//$tester->startNewLevel(3, "Data processing functions", $newLevelCallback);
+$tester->startNewLevel(3, "Data processing functions", $newLevelCallback);
+$dataProcessInput = $elmFunInput;
 
+// Set column value (cset C STR)
+$tester->createTest()
+    ->setName("Set column value")
+    ->setScript($script)
+    ->addParams("-d : cset 2 Anonymizováno")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/17-set-column-value.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
