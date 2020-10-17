@@ -212,6 +212,13 @@ $tester->createTest()
     ->addParams("-d : 3 4")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/22-copy-val-from-to-column.txt");
+// Swap values between columns (swap N M)
+$tester->createTest()
+    ->setName("Swap values between columns")
+    ->setScript($script)
+    ->addParams("-d : 1 2")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/23-swap-values-between-cols.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
