@@ -1,0 +1,9 @@
+Jméno:Příjmení:Částka:Částka
+Michal:Šmahel:100 Kč:100 Kč
+Vojtěch:Svědiroh:100 Kč:100 Kč
+Květa:Růžičková Strašná:20 Kč:20 Kč
+Martin:Vomáčka:50 Kč:50 Kč
+Zdeněk:Nedělka Zaoral:2.000 Kč:2.000 Kč
+Jan:Vystrašil:75 Kč:75 Kč
+Adéla:Malá Vychytralá:35 Kč:35 Kč
+Lucie:Pochmurná:220 Kč:220 Kč

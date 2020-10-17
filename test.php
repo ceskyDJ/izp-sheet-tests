@@ -205,6 +205,13 @@ $tester->createTest()
     ->addParams("-d : int 1")
     ->setFileInput("{$f}/0-numbers-input.txt")
     ->setFileExpOutput("{$f}/21-column-remove-dec-part.txt");
+// Copy column values to another column (copy N, M)
+$tester->createTest()
+    ->setName("Copy column values to another column")
+    ->setScript($script)
+    ->addParams("-d : 3 4")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/22-copy-val-from-to-column.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
