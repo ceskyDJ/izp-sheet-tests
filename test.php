@@ -219,6 +219,13 @@ $tester->createTest()
     ->addParams("-d : swap 1 2")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/23-swap-values-between-cols.txt");
+// Move column before another column (move N M)
+$tester->createTest()
+    ->setName("Move column before another column")
+    ->setScript($script)
+    ->addParams("-d : move 4 1")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/24-move-col-before-col.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
