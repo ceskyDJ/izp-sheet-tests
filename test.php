@@ -184,6 +184,13 @@ $tester->createTest()
     ->addParams("-d : tolower 2")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/18-column-to-lower-case.txt");
+// Change column value to upper case (toupper C)
+$tester->createTest()
+    ->setName("Change column value to UPPER CASE (with czech specific letters)")
+    ->setScript($script)
+    ->addParams("-d : toupper 2")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/19-column-to-upper-case.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================

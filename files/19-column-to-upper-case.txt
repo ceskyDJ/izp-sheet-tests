@@ -1,0 +1,9 @@
+Jméno:PŘÍJMENÍ:Částka:Zaplaceno
+Michal:ŠMAHEL:100 Kč:9. 10. 2020
+Vojtěch:SVĚDIROH:100 Kč:9. 10. 2020
+Květa:RŮŽIČKOVÁ STRAŠNÁ:20 Kč: 12. 9. 2020
+Martin:VOMÁČKA:50 Kč:5. 10. 2020
+Zdeněk:NEDĚLKA ZAORAL:2.000 Kč:12. 10. 2020
+Jan:VYSTRAŠIL:75 Kč:7. 10. 2020
+Adéla:MALÁ VYCHYTRALÁ:35 Kč:2. 10. 2020
+Lucie:POCHMURNÁ:220 Kč: 6. 10. 2020
