@@ -168,7 +168,7 @@ foreach ($elementaryFunctions as $function => $numberOfParameters) {
 // DATA PROCESSING FUNCTIONS
 // =========================
 $tester->startNewLevel(3, "Data processing functions", $newLevelCallback);
-$dataProcessInput = $elmFunInput;
+$dataProcessInput = "{$f}/0-data-process-functions-input.txt";
 
 // Set column value (cset C STR)
 $tester->createTest()
@@ -177,6 +177,13 @@ $tester->createTest()
     ->addParams("-d : cset 2 Anonymizováno")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/17-set-column-value.txt");
+// Change column value to lower case (tolower C)
+$tester->createTest()
+    ->setName("Change column value to lower case (with czech specific letters)")
+    ->setScript($script)
+    ->addParams("-d : tolower 2")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/18-column-to-lower-case.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
