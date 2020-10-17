@@ -29,11 +29,14 @@ if (key_exists("c", $args)) {
     define("WHITE", "\e[0m");
 }
 
+require "classes/Flags.php";
 require "classes/ErrorInScriptException.php";
 require "classes/Test.php";
 require "classes/Tester.php";
+require "classes/TestGenerator.php";
 
 $tester = new Tester();
+$generator = new TestGenerator($tester);
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 $f = "files";
 
@@ -156,12 +159,19 @@ $tester->createTest()
 $tester->startNewLevel(2, "Bad inputs in elementary functions", $newLevelCallback);
 
 $elementaryFunctions = [
-    "arow" => 0, "acol" => 0, "irow" => 1, "drow" => 1, "icol" => 1, "dcol" => 1, "drows" => 2, "dcols" => 2
+    'arow'  => [],
+    'acol'  => [],
+    'irow'  => [Flags::STD_INT],
+    'drow'  => [Flags::STD_INT],
+    'icol'  => [Flags::STD_INT],
+    'dcol'  => [Flags::STD_INT],
+    'drows' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'dcols' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER]
 ];
 
 // Tests: bad number of params, zero value params, negative value params
 foreach ($elementaryFunctions as $function => $numberOfParameters) {
-    $tester->generateBadInputParamsTests($script, $function, $numberOfParameters);
+    $generator->generateBadInputParamsTests($script, $function, $numberOfParameters);
 }
 
 
