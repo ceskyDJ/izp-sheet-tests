@@ -169,9 +169,8 @@ $elementaryFunctions = [
     'dcols' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER]
 ];
 
-// Tests: bad number of params, zero value params, negative value params
-foreach ($elementaryFunctions as $function => $numberOfParameters) {
-    $generator->generateBadInputParamsTests($script, $function, $numberOfParameters);
+foreach ($elementaryFunctions as $function => $argsWithFlags) {
+    $generator->generateBadInputParamsTests($script, $function, $argsWithFlags);
 }
 
 
@@ -239,8 +238,22 @@ $tester->createTest()
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
-//$tester->startNewLevel(4, "Bad inputs in data processing functions", $newLevelCallback);
+$tester->startNewLevel(4, "Bad inputs in data processing functions", $newLevelCallback);
 
+$dataProcessingFunctions = [
+    'cset' => [Flags::STD_INT, Flags::STRING],
+    'tolower' => [Flags::STD_INT],
+    'toupper' => [Flags::STD_INT],
+    'round' => [Flags::STD_INT],
+    'int' => [Flags::STD_INT],
+    'copy' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'swap' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'move' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER]
+];
+
+foreach ($elementaryFunctions as $function => $argsWithFlags) {
+    $generator->generateBadInputParamsTests($script, $function, $argsWithFlags);
+}
 
 // SELECT FUNCTIONS
 // ================
