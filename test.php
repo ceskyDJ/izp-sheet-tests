@@ -198,6 +198,13 @@ $tester->createTest()
     ->addParams("-d : round 1")
     ->setFileInput("{$f}/0-numbers-input.txt")
     ->setFileExpOutput("{$f}/20-round-number-in-column.txt");
+// Remove decimal part from column (int C)
+$tester->createTest()
+    ->setName("Remove decimal part from column")
+    ->setScript($script)
+    ->addParams("-d : int 1")
+    ->setFileInput("{$f}/0-numbers-input.txt")
+    ->setFileExpOutput("{$f}/21-column-remove-dec-part.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
