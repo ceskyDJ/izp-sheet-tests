@@ -259,7 +259,7 @@ if (($tester->getSuccessRate() + $tester->getSkipRate()) < 50) {
 }
 
 if ($tester->getSkipRate() > 50) {
-    echo PHP_EOL.RED."Hmm, I'm looking at your skipped tests... It sounds like very bad joke.".WHITE.PHP_EOL;
+    echo PHP_EOL.RED."Hmm, I'm looking at your score... It doesn't sound very well. You should work harder!".WHITE.PHP_EOL;
 }
 
 if ($tester->getSuccessRate() === 100) {
