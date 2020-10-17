@@ -191,6 +191,13 @@ $tester->createTest()
     ->addParams("-d : toupper 2")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/19-column-to-upper-case.txt");
+// Round number in column to integer (round C)
+$tester->createTest()
+    ->setName("Round number in column to integer")
+    ->setScript($script)
+    ->addParams("-d : round 1")
+    ->setFileInput("{$f}/0-numbers-input.txt")
+    ->setFileExpOutput("{$f}/20-round-number-in-column.txt");
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
