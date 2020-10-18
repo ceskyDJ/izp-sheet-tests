@@ -235,6 +235,14 @@ $tester->createTest()
     ->addParams("-d : move 4 1")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/24-move-col-before-col.txt");
+// Count summary values of selected columns (csum C N M)
+$tester->createTest()
+    ->setName("Count summary values of selected columns")
+    ->setScript($script)
+    ->addParams("-d : csum 3 1 2")
+    ->setFileInput("{$f}/0-numeric-only-input.txt")
+    ->setFileExpOutput("{$f}/25-sel-cols-sum.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
