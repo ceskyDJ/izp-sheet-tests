@@ -1,0 +1,9 @@
+Jmeno:Prijmeni:Castka:Zaplaceno
+Michal:Smahel:100 Kc:9. 10. 2020
+Vojtech:Svediroh:100 Kc:9. 10. 2020
+Kveta:Ruzickova Strasna:20 Kc: 12. 9. 2020
+Martin:Vomacka:50 Kc:5. 10. 2020
+Zdenek:Nedelka Zaoral:2.000 Kc:12. 10. 2020
+Jan:Vystrasil:75 Kc:7. 10. 2020
+Adela:Mala Vychytrala:35 Kc:2. 10. 2020
+Lucie:Pochmurna:220 Kc: 6. 10. 2020

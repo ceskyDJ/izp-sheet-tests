@@ -1,9 +1,9 @@
-Jméno:příjmení:Částka:Zaplaceno
-Michal:šmahel:100 Kč:9. 10. 2020
-Vojtěch:svědiroh:100 Kč:9. 10. 2020
-Květa:růžičková strašná:20 Kč: 12. 9. 2020
-Martin:vomáčka:50 Kč:5. 10. 2020
-Zdeněk:nedělka zaoral:2.000 Kč:12. 10. 2020
-Jan:vystrašil:75 Kč:7. 10. 2020
-Adéla:malá vychytralá:35 Kč:2. 10. 2020
-Lucie:pochmurná:220 Kč: 6. 10. 2020
+Jmeno:prijmeni:Castka:Zaplaceno
+Michal:smahel:100 Kc:9. 10. 2020
+Vojtech:svediroh:100 Kc:9. 10. 2020
+Kveta:ruzickova strasna:20 Kc: 12. 9. 2020
+Martin:vomacka:50 Kc:5. 10. 2020
+Zdenek:nedelka zaoral:2.000 Kc:12. 10. 2020
+Jan:vystrasil:75 Kc:7. 10. 2020
+Adela:mala vychytrala:35 Kc:2. 10. 2020
+Lucie:pochmurna:220 Kc: 6. 10. 2020
