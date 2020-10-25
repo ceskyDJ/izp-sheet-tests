@@ -300,6 +300,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/32-sel-rows-sum.txt")
     ->setRequired(false);
+// Count column arithmetic average of selected rows (ravg C N M)
+$tester->createTest()
+    ->setName("Count column arithmetic average of selected rows")
+    ->setScript($script)
+    ->addParams("-d : ravg 1 1 5")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/33-sel-rows-avg.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
