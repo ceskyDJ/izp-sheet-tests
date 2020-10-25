@@ -276,6 +276,14 @@ $tester->createTest()
     ->setFileInput("{$f}/0-some-input-cols-input.txt")
     ->setFileExpOutput("{$f}/29-sel-cols-count.txt")
     ->setRequired(false);
+// Insert numerical sequence to selected columns (cseq N M B)
+$tester->createTest()
+    ->setName("Insert numerical sequence to selected columns")
+    ->setScript($script)
+    ->addParams("-d : cseq 1 3 121")
+    ->setFileInput("{$f}/0-empty-cols-input.txt")
+    ->setFileExpOutput("{$f}/30-sel-cols-num-seq.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
