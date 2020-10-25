@@ -239,7 +239,7 @@ $tester->createTest()
 $tester->createTest()
     ->setName("Count summary values of selected columns")
     ->setScript($script)
-    ->addParams("-d : csum 3 1 2")
+    ->addParams("-d : csum 4 1 3")
     ->setFileInput("{$f}/0-numeric-only-input.txt")
     ->setFileExpOutput("{$f}/25-sel-cols-sum.txt")
     ->setRequired(false);
