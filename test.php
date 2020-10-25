@@ -324,6 +324,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/35-sel-rows-max.txt")
     ->setRequired(false);
+// Count column number of non-empty values of selected rows (rcount C N M)
+$tester->createTest()
+    ->setName("Count column number of non-empty values of selected rows")
+    ->setScript($script)
+    ->addParams("-d : rcount 2 1 6")
+    ->setFileInput("{$f}/0-some-empty-cols-input.txt")
+    ->setFileExpOutput("{$f}/36-sel-rows-count.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
