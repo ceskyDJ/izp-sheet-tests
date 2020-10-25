@@ -292,6 +292,14 @@ $tester->createTest()
     ->setFileInput("{$f}/0-some-empty-cols-input.txt")
     ->setFileExpOutput("{$f}/31-sel-rows-num-seq.txt")
     ->setRequired(false);
+// Count column summary of selected rows (rsum C N M)
+$tester->createTest()
+    ->setName("Count column summary of selected rows")
+    ->setScript($script)
+    ->addParams("-d : rsum 1 1 5")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/32-sel-rows-sum.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
