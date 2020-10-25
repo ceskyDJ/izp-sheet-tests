@@ -65,6 +65,10 @@ class TestGenerator
         if (count($argsFlags) >= 2) {
             $this->generateReverseOrderNumbersInParamsTest($script, $function, $argsFlags);
         }
+
+        if (count($argsFlags) >= 3) {
+            $this->generateBadValueForOutOfIntervalParamTest($script, $function, $argsFlags);
+        }
     }
 
     /**
@@ -256,6 +260,48 @@ class TestGenerator
 
         $this->tester->createTest()
             ->setName("{$function} with reverse order numbers in parameter(s)")
+            ->setScript($script)
+            ->addParams("-d : {$function}{$params}")
+            ->setStdIn(self::SOME_INPUT)
+            ->setExpExitCode(self::ERROR_CODE);
+    }
+
+
+    /**
+     * Generates a bad input test for checking bad value in parameter that must be out of interval <SMALLER, BIGGER>
+     *
+     * @param string $script Script for testing
+     * @param string $function Script's function to test
+     * @param array $argsFlags Arguments' flags (type and other flags)
+     */
+    private function generateBadValueForOutOfIntervalParamTest(string $script, string $function, array $argsFlags): void
+    {
+        $params = "";
+        // Param that should be out of interval <$smaller, $bigger>
+        $out = null;
+        $smaller = null;
+        foreach ($argsFlags as $individualArgFlags) {
+            if ($individualArgFlags & Flags::OUT) {
+                $out = rand(25, 60);
+            } else if ($individualArgFlags & Flags::SMALLER) {
+                $smaller = rand($out - 25, 40);
+                $params .= " {$smaller}";
+            } elseif ($individualArgFlags & Flags::BIGGER) {
+                $bigger = rand($smaller + 1, 70);
+                $params .= " {$bigger}";
+            } else {
+                $params .= " ".rand(1, 50);
+            }
+        }
+
+        // The test cannot be created, if there is no out of interval number
+        // In this case there is no rule required for this test
+        if ($out === null) {
+            return;
+        }
+
+        $this->tester->createTest()
+            ->setName("{$function} with bad value of parameter that must be out of interval <smaller, bigger>")
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
