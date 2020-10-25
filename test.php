@@ -316,6 +316,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/34-sel-rows-min.txt")
     ->setRequired(false);
+// Find column MAXIMAL value of selected rows (rmax C N M)
+$tester->createTest()
+    ->setName("Find column MAXIMAL value of selected rows")
+    ->setScript($script)
+    ->addParams("-d : rmax 1 1 5")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/35-sel-rows-max.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
