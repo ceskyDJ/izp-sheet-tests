@@ -243,6 +243,14 @@ $tester->createTest()
     ->setFileInput("{$f}/0-numeric-only-input.txt")
     ->setFileExpOutput("{$f}/25-sel-cols-sum.txt")
     ->setRequired(false);
+// Count arithmetic average of selected columns (cavg C N M)
+$tester->createTest()
+    ->setName("Count arithmetic average of selected columns")
+    ->setScript($script)
+    ->addParams("-d : cavg 4 1 3")
+    ->setFileInput("{$f}/0-numeric-only-input.txt")
+    ->setFileExpOutput("{$f}/26-sel-cols-avg.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
