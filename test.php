@@ -268,6 +268,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/28-sel-cols-max.txt")
     ->setRequired(false);
+// Count number of non-empty values of selected columns (ccount C N M)
+$tester->createTest()
+    ->setName("Count number of non-empty values of selected columns")
+    ->setScript($script)
+    ->addParams("-d : ccount 6 1 5")
+    ->setFileInput("{$f}/0-some-input-cols-input.txt")
+    ->setFileExpOutput("{$f}/29-sel-cols-count.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
