@@ -273,7 +273,7 @@ $tester->createTest()
     ->setName("Count number of non-empty values of selected columns")
     ->setScript($script)
     ->addParams("-d : ccount 6 1 5")
-    ->setFileInput("{$f}/0-some-input-cols-input.txt")
+    ->setFileInput("{$f}/0-some-empty-cols-input.txt")
     ->setFileExpOutput("{$f}/29-sel-cols-count.txt")
     ->setRequired(false);
 // Insert numerical sequence to selected columns (cseq N M B)
