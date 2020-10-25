@@ -10,6 +10,10 @@
 class TestGenerator
 {
     /**
+     * Custom error code returned by C script
+     */
+    private const ERROR_CODE = 1;
+    /**
      * Some valid input for testing exit codes
      */
     private const SOME_INPUT = [
@@ -83,7 +87,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
@@ -117,7 +121,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
@@ -151,7 +155,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
@@ -182,7 +186,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
@@ -214,7 +218,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
@@ -253,7 +257,7 @@ class TestGenerator
             ->setScript($script)
             ->addParams("-d : {$function}{$params}")
             ->setStdIn(self::SOME_INPUT)
-            ->setExpExitCode(1);
+            ->setExpExitCode(self::ERROR_CODE);
     }
 
     /**
