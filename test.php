@@ -260,6 +260,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/27-sel-cols-min.txt")
     ->setRequired(false);
+// Find maximum value of selected columns (cmax C N M)
+$tester->createTest()
+    ->setName("Find MAXIMUM value of selected columns")
+    ->setScript($script)
+    ->addParams("-d : cmax 4 1 3")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/28-sel-cols-max.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
