@@ -178,6 +178,7 @@ foreach ($elementaryFunctions as $function => $argsWithFlags) {
 // =========================
 $tester->startNewLevel(3, "Data processing functions", $newLevelCallback);
 $dataProcessInput = "{$f}/0-data-process-functions-input.txt";
+$numOnlyInput = "{$f}/0-numeric-only-input.txt";
 
 // Set column value (cset C STR)
 $tester->createTest()
@@ -240,7 +241,7 @@ $tester->createTest()
     ->setName("Count summary values of selected columns")
     ->setScript($script)
     ->addParams("-d : csum 4 1 3")
-    ->setFileInput("{$f}/0-numeric-only-input.txt")
+    ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/25-sel-cols-sum.txt")
     ->setRequired(false);
 // Count arithmetic average of selected columns (cavg C N M)
@@ -248,8 +249,16 @@ $tester->createTest()
     ->setName("Count arithmetic average of selected columns")
     ->setScript($script)
     ->addParams("-d : cavg 4 1 3")
-    ->setFileInput("{$f}/0-numeric-only-input.txt")
+    ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/26-sel-cols-avg.txt")
+    ->setRequired(false);
+// Find minimal value of selected columns (cmin C N M)
+$tester->createTest()
+    ->setName("Find minimal value of selected columns")
+    ->setScript($script)
+    ->addParams("-d : cmin 4 1 3")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/27-sel-cols-min.txt")
     ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
