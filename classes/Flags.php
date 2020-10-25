@@ -38,6 +38,11 @@ class Flags
      */
     public const BIGGER = 64;
     /**
+     * Out of interval <SMALLER, BIGGER>
+     */
+    public const OUT = 128;
+
+    /**
      * Standard int form used in most cases
      */
     public const STD_INT = self::INT | self::UNSIGNED | self::NOT_ZERO;

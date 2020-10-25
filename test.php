@@ -345,7 +345,19 @@ $dataProcessingFunctions = [
     'int' => [Flags::STD_INT],
     'copy' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
     'swap' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
-    'move' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER]
+    'move' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'csum' => [Flags::STD_INT | Flags::OUT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'cavg' => [Flags::STD_INT | Flags::OUT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'cmin' => [Flags::STD_INT | Flags::OUT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'cmax' => [Flags::STD_INT | Flags::OUT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'ccount' => [Flags::STD_INT | Flags::OUT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'cseq' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER, Flags::STD_INT],
+    'rseq' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER, Flags::STD_INT],
+    'rsum' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'ravg' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'rmin' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'rmax' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'rcount' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
 ];
 
 foreach ($elementaryFunctions as $function => $argsWithFlags) {
