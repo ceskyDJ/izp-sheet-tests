@@ -308,6 +308,14 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/33-sel-rows-avg.txt")
     ->setRequired(false);
+// Find column minimal value of selected rows (rmin C N M)
+$tester->createTest()
+    ->setName("Find column minimal value of selected rows")
+    ->setScript($script)
+    ->addParams("-d : rmin 1 1 5")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/34-sel-rows-min.txt")
+    ->setRequired(false);
 
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
