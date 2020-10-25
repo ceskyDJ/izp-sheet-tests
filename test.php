@@ -360,7 +360,7 @@ $dataProcessingFunctions = [
     'rcount' => [Flags::STD_INT, Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
 ];
 
-foreach ($elementaryFunctions as $function => $argsWithFlags) {
+foreach ($dataProcessingFunctions as $function => $argsWithFlags) {
     $generator->generateBadInputParamsTests($script, $function, $argsWithFlags);
 }
 
