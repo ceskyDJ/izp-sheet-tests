@@ -333,8 +333,8 @@ $tester->runTests($successCallback, $failCallback, $skipCallback);
 
 // Summary report
 $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getTestsSum(), $tester->getSuccessRate());
-$failRow = sprintf("Failed tests:\t\t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
-$skipRow = sprintf("Skipped tests: \t\t%d / %d (%d %%)", $tester->getSkipped(), $tester->getTestsSum(), $tester->getSkipRate());
+$failRow = sprintf(   "Failed tests:    \t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
+$skipRow = sprintf(   "Skipped tests:   \t%d / %d (%d %%)", $tester->getSkipped(), $tester->getTestsSum(), $tester->getSkipRate());
 
 echo WHITE.str_repeat("=", 39).PHP_EOL;
 echo GREEN.$successRow.WHITE.PHP_EOL;
