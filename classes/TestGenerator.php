@@ -243,6 +243,8 @@ class TestGenerator
                 // See $bigger above
                 $smaller = rand(1, $bigger);
                 $params .= " {$smaller}";
+            } else {
+                $params .= " ".rand(1, 50);
             }
         }
 
