@@ -438,7 +438,15 @@ $tester->createTest()
 
 // ALL FUNCTIONS (COMBINED) WITH GOOD INPUT
 // ========================================
-//$tester->startNewLevel(7, "All functions with good input", $newLevelCallback);
+$tester->startNewLevel(7, "All functions with good input", $newLevelCallback);
+
+// Add and append new rows
+$tester->createTest()
+    ->setName("Add and append new rows")
+    ->setScript($script)
+    ->addParams("-d : arow irow 4")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/40-add-some-new-rows.txt");
 
 
 // GENERAL BAD INPUTS
