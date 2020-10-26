@@ -383,7 +383,13 @@ $tester->createTest()
     ->addParams("-d : rows 2 - toupper 2")
     ->setFileInput("{$f}/0-change-case-input.txt")
     ->setFileExpOutput("{$f}/37-upper-case-surnames.txt");
-
+// Apply function on rows that have column begins with something (beginswith C STR)
+$tester->createTest()
+    ->setName("Apply function to rows that have columns begins with something")
+    ->setScript($script)
+    ->addParams("-d : beginswith 1 - cset 1 0")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/38-set-neg-nums-to-zero.txt");
 
 // SCHOOL SAMPLES
 // ==============
