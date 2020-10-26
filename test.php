@@ -85,6 +85,7 @@ $tester->createTest()
     ->setFileInput("{$f}/0-many-delimiters-input.txt")
     ->setFileExpOutput("{$f}/16-many-delimiters.txt");
 
+
 // ELEMENTARY FUNCTIONS
 // ====================
 $tester->startNewLevel(1, "Elementary functions", $newLevelCallback);
@@ -341,6 +342,7 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/36-sel-rows-count.txt")
     ->setRequired(false);
 
+
 // BAD INPUTS IN DATA PROCESSING FUNCTIONS
 // =======================================
 $tester->startNewLevel(4, "Bad inputs in data processing functions", $newLevelCallback);
@@ -372,6 +374,7 @@ foreach ($dataProcessingFunctions as $function => $argsWithFlags) {
     $generator->generateBadInputParamsTests($script, $function, $argsWithFlags);
 }
 
+
 // SELECT FUNCTIONS
 // ================
 $tester->startNewLevel(5, "Select functions", $newLevelCallback);
@@ -398,9 +401,15 @@ $tester->createTest()
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/39-remove-dec-part.txt");
 
+
+// BAD INPUTS IN SELECT FUNCTIONS
+// ==============================
+//$tester->startNewLevel(6, "Bad inputs in select functions", $newLevelCallback);
+
+
 // SCHOOL SAMPLES
 // ==============
-$tester->startNewLevel(6, "School samples", $newLevelCallback);
+$tester->startNewLevel(7, "School samples", $newLevelCallback);
 
 // Add week column
 $tester->createTest()
@@ -438,7 +447,7 @@ $tester->createTest()
 
 // ALL FUNCTIONS (COMBINED) WITH GOOD INPUT
 // ========================================
-$tester->startNewLevel(7, "All functions with good input", $newLevelCallback);
+$tester->startNewLevel(8, "All functions with good input", $newLevelCallback);
 
 // Add and append new rows
 $tester->createTest()
@@ -458,7 +467,7 @@ $tester->createTest()
 
 // GENERAL BAD INPUTS
 // ==================
-$tester->startNewLevel(8, "General bad inputs", $newLevelCallback);
+$tester->startNewLevel(9, "General bad inputs", $newLevelCallback);
 
 // Empty input file
 $tester->createTest()
