@@ -404,7 +404,17 @@ $tester->createTest()
 
 // BAD INPUTS IN SELECT FUNCTIONS
 // ==============================
-//$tester->startNewLevel(6, "Bad inputs in select functions", $newLevelCallback);
+$tester->startNewLevel(6, "Bad inputs in select functions", $newLevelCallback);
+
+$selectFunctions = [
+    'rows' => [Flags::STD_INT | Flags::SMALLER, Flags::STD_INT | Flags::BIGGER],
+    'beginswith' => [Flags::STD_INT, Flags::STRING],
+    'contains' => [Flags::STD_INT, Flags::STRING]
+];
+
+foreach ($selectFunctions as $function => $argsWithFlags) {
+    $generator->generateBadInputParamsTests($script, $function, $argsWithFlags);
+}
 
 
 // SCHOOL SAMPLES
