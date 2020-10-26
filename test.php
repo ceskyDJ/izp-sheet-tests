@@ -154,8 +154,8 @@ $tester->createTest()
     ->setFileExpOutput("{$f}/15-delete-multiple-cols.txt");
 
 
-// BAD INPUTS IN ELEMENTARY FUNCTIONS TESTS
-// ========================================
+// BAD INPUTS IN ELEMENTARY FUNCTIONS
+// ==================================
 $tester->startNewLevel(2, "Bad inputs in elementary functions", $newLevelCallback);
 
 $elementaryFunctions = [
@@ -215,7 +215,7 @@ $tester->createTest()
     ->addParams("-d : int 1")
     ->setFileInput("{$f}/0-numbers-input.txt")
     ->setFileExpOutput("{$f}/21-column-remove-dec-part.txt");
-// Copy column values to another column (copy N, M)
+// Copy column values to another column (copy N M)
 $tester->createTest()
     ->setName("Copy column values to another column")
     ->setScript($script)
