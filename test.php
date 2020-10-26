@@ -447,6 +447,13 @@ $tester->createTest()
     ->addParams("-d : arow irow 4")
     ->setFileInput($dataProcessInput)
     ->setFileExpOutput("{$f}/40-add-some-new-rows.txt");
+// Delete column and row
+$tester->createTest()
+    ->setName("Delete column and row")
+    ->setScript($script)
+    ->addParams("-d : drow 9 dcol 1")
+    ->setFileInput($dataProcessInput)
+    ->setFileExpOutput("{$f}/41-del-row-and-col.txt");
 
 
 // GENERAL BAD INPUTS

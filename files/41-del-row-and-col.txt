@@ -1,0 +1,8 @@
+Příjmení:Částka:Zaplaceno
+Šmahel:100 Kč:9. 10. 2020
+Svědiroh:100 Kč:9. 10. 2020
+Růžičková Strašná:20 Kč: 12. 9. 2020
+Vomáčka:50 Kč:5. 10. 2020
+Nedělka Zaoral:2.000 Kč:12. 10. 2020
+Vystrašil:75 Kč:7. 10. 2020
+Malá Vychytralá:35 Kč:2. 10. 2020
