@@ -390,6 +390,13 @@ $tester->createTest()
     ->addParams("-d : beginswith 1 - cset 1 0")
     ->setFileInput($numOnlyInput)
     ->setFileExpOutput("{$f}/38-set-neg-nums-to-zero.txt");
+// Apply function on rows that have column contains something (contains C STR)
+$tester->createTest()
+    ->setName("Apply function on rows that have columns contains something")
+    ->setScript($script)
+    ->addParams("-d : contains 1 . int 1")
+    ->setFileInput($numOnlyInput)
+    ->setFileExpOutput("{$f}/39-remove-dec-part.txt");
 
 // SCHOOL SAMPLES
 // ==============
