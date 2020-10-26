@@ -374,7 +374,15 @@ foreach ($dataProcessingFunctions as $function => $argsWithFlags) {
 
 // SELECT FUNCTIONS
 // ================
-//$tester->startNewLevel(5, "Select functions", $newLevelCallback);
+$tester->startNewLevel(5, "Select functions", $newLevelCallback);
+
+// Apply function on selected rows (rows N M)
+$tester->createTest()
+    ->setName("Apply function on selected rows")
+    ->setScript($script)
+    ->addParams("-d : rows 2 - toupper 2")
+    ->setFileInput("{$f}/0-change-case-input.txt")
+    ->setFileExpOutput("{$f}/37-upper-case-surnames.txt");
 
 
 // SCHOOL SAMPLES
