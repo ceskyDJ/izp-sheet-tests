@@ -14,10 +14,12 @@ mb_internal_encoding("UTF-8");
 
 // Script input params
 // test.php -c          Activate extended color mode (with background color)
-$args = getopt("c::");
+// test.php -v          Activate verbose output mode (all individual tests' results will be printed)
+$args = getopt("cv", ["ext-color", "verbose"]);
+$verboseOutput = key_exists("v", $args) || key_exists("verbose", $args);
 
 // Colors for terminal outputs
-if (key_exists("c", $args)) {
+if (key_exists("c", $args) || key_exists("ext-color", $args)) {
     define("GREEN", "\e[0;32;40m");
     define("YELLOW", "\e[0;33;40m");
     define("RED", "\e[0;31;40m");
@@ -40,10 +42,13 @@ $generator = new TestGenerator($tester);
 $script = "tmp/sheet"; // There is no extension in GNU/Linux OSes, so it's correct
 $f = "files";
 
-// Callback for successful tests (required for automation)
+// Callbacks for auto-generated output
 $newLevelCallback = function (int $level, string $name) {
     $message = "<< Started level {$level} ({$name}) >>";
-    echo WHITE.str_repeat("-", mb_strlen($message)).PHP_EOL;
+
+    if ($level > 0) {
+        echo WHITE.str_repeat("-", mb_strlen($message)).PHP_EOL;
+    }
     echo YELLOW.$message.WHITE.PHP_EOL;
 };
 $successCallback = function (int $number, string $name) {
@@ -57,6 +62,9 @@ $failCallback = function (ErrorInScriptException $e) {
 };
 $skipCallback = function (int $number, string $name) {
     echo WHITE."[{$number}] {$name}: The test was skipped.".PHP_EOL;
+};
+$unreachedLevel = function () {
+    echo WHITE."You haven't reached this level (all tests of this level were skipped).".PHP_EOL;
 };
 
 // STANDARD BEHAVIOUR
@@ -430,14 +438,25 @@ $tester->createTest()
     ->setFileInput("{$f}/0-many-delimiters-input.txt")
     ->setExpExitCode(1);
 
-$tester->runTests($successCallback, $failCallback, $skipCallback);
 
-// Summary report
+// Get data
+ob_start();
+$tester->runTests($successCallback, $failCallback, $skipCallback, $unreachedLevel, $verboseOutput);
+$testResults = ob_get_clean();
+
+$testerName = "Sheet.c - Tester";
+
 $successRow = sprintf("Successful tests:\t%d / %d (%d %%)", $tester->getSuccessful(), $tester->getTestsSum(), $tester->getSuccessRate());
 $failRow = sprintf(   "Failed tests:    \t%d / %d (%d %%)", $tester->getFailed(), $tester->getTestsSum(), $tester->getFailRate());
 $skipRow = sprintf(   "Skipped tests:   \t%d / %d (%d %%)", $tester->getSkipped(), $tester->getTestsSum(), $tester->getSkipRate());
 
-echo WHITE.str_repeat("=", 39).PHP_EOL;
+// Print report
+echo GREEN."+".str_repeat("-", strlen($testerName) + 2)."+".WHITE.PHP_EOL;
+echo GREEN."+ ".$testerName." +".WHITE.PHP_EOL;
+echo GREEN."+".str_repeat("-", strlen($testerName) + 2)."+".WHITE.PHP_EOL.PHP_EOL;
+
+echo $testResults.PHP_EOL;
+
 echo GREEN.$successRow.WHITE.PHP_EOL;
 echo RED.$failRow.WHITE.PHP_EOL;
 echo WHITE.$skipRow.PHP_EOL;

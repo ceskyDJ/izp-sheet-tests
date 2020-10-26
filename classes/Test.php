@@ -77,7 +77,7 @@ class Test
             $output .= "{$this->script} {$params}".PHP_EOL;
         }
 
-        return $output;
+        return rtrim($output, PHP_EOL);
     }
 
     /**

@@ -24,6 +24,19 @@ class Tester
     private const TMP_FILE = "tmp/sample.csv";
 
     /**
+     * Successful test flag
+     */
+    private const SUCCESSFUL = 0;
+    /**
+     * Failed test flag
+     */
+    private const FAILED = 1;
+    /**
+     * Skipped test flag
+     */
+    private const SKIPPED = 2;
+
+    /**
      * @var Test[] Tests for the try
      */
     private array $tests = [];
@@ -76,11 +89,14 @@ class Tester
      * @param callable $successCallback What to call if the test was successful
      * @param callable $failCallback What to call if the test failed
      * @param callable $skipCallback What to call if the test was skipped
+     * @param callable $unreachedLevelCallback What to call if the level contains only skipped tests (=> was unreached)
+     * @param bool $verboseOutput Activate verbose output? (result for every individual test)
      */
-    public function runTests(callable $successCallback, callable $failCallback, callable $skipCallback): void
+    public function runTests(callable $successCallback, callable $failCallback, callable $skipCallback, callable $unreachedLevelCallback, bool $verboseOutput): void
     {
         $level = -1;
-        foreach ($this->tests as $test) {
+        $callbackBuffer = []; // All callbacks from actual level
+        foreach ($this->tests as $key => $test) {
             if ($test->getLevel() > $level) {
                 $this->activateNextLevel($level = $test->getLevel());
             }
@@ -90,15 +106,34 @@ class Tester
 
                 // Call callback for success tests
                 $this->successful++;
-                $successCallback($test->getNumber(), $test->getName());
+                $callbackBuffer[] = [
+                    'type' => self::SUCCESSFUL,
+                    'callback' => $successCallback,
+                    'params' => [$test->getNumber(), $test->getName()]
+                ];
             } catch (ErrorInScriptException $e) {
                 if (!$this->autoSkip && $test->isRequired()) {
                     $this->failed++;
-                    $failCallback($e);
+                    $callbackBuffer[] = [
+                        'type' => self::FAILED,
+                        'callback' => $failCallback,
+                        'params' => [$e]
+                    ];
                 } else {
                     $this->skipped++;
-                    $skipCallback($test->getNumber(), $test->getName());
+                    $callbackBuffer[] = [
+                        'type' => self::SKIPPED,
+                        'callback' => $skipCallback,
+                        'params' => [$test->getNumber(), $test->getName()]
+                    ];
                 }
+            }
+
+            // Report of the level
+            // Only run when actual test is the last of the level
+            if ($level >= 0 && (!isset($this->tests[$key + 1]) || $this->tests[$key + 1]->getLevel() > $level)) {
+                $this->processTestCallbacks($callbackBuffer, $unreachedLevelCallback, $verboseOutput);
+                $callbackBuffer = []; // Empty for the next level
             }
         }
     }
@@ -199,6 +234,54 @@ class Tester
         // If low-level tests weren't successful, automatically skip the next one
         if ($this->failed !== 0) {
             $this->setAutoSkip(true);
+        }
+    }
+
+    /**
+     * Process callbacks in the callback buffer for individual level
+     * If there is all skip callbacks in the buffer, it will only call general skip callback (for level)
+     *
+     * @param array $callbackBuffer Buffer of callbacks to process
+     * @param callable $unreachedLevelCallback What to call if there is the buffer full of the skip callbacks
+     * @param bool $verboseOutput Activate verbose output? (result for every individual test)
+     */
+    private function processTestCallbacks(array $callbackBuffer, callable $unreachedLevelCallback, bool $verboseOutput): void
+    {
+        // If verbose output was activated, only simply print results for each test
+        if ($verboseOutput === true) {
+            $this->callTestCallbacks($callbackBuffer);
+
+            return;
+        }
+
+        // Search callbacks with other types than SKIPPED
+        // If some is found, unreached is set to false --> this level is reached
+        $unreached = array_reduce(
+            $callbackBuffer,
+            fn($unreached, $item) => $item['type'] !== self::SKIPPED ? false : $unreached,
+            true
+        );
+
+        // Unreached levels have only information callback
+        if($unreached === true) {
+            $unreachedLevelCallback();
+
+            return;
+        }
+
+        // Reached levels have all individual result callbacks
+        $this->callTestCallbacks($callbackBuffer);
+    }
+
+    /**
+     * Calls all callbacks from the callback buffer
+     *
+     * @param array $callbackBuffer Buffer of callbacks to call
+     */
+    private function callTestCallbacks(array $callbackBuffer): void
+    {
+        foreach ($callbackBuffer as $callback) {
+            call_user_func_array($callback['callback'], $callback['params']);
         }
     }
 
