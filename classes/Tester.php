@@ -205,7 +205,8 @@ class Tester
 
         // Output testing
         if(count($stdOut) !== count($expStdOut)) {
-            throw new ErrorInScriptException("Number of rows doesn't match.", $test, ErrorInScriptException::TYPE_BAD_OUTPUT);
+            $errorMessage = sprintf("Number of rows doesn't match (expected: %d, got %d).", count($expStdOut), count($stdOut));
+            throw new ErrorInScriptException($errorMessage, $test, ErrorInScriptException::TYPE_BAD_OUTPUT);
         }
 
         foreach($stdOut as $key => $value){
