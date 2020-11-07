@@ -184,9 +184,7 @@ class Tester
         $paramsGroup = $test->getParamsGroup();
         for ($i = 0; $i < count($paramsGroup); $i++) {
             $this->prepareTestFile(self::TMP_FILE, $stdOut);
-
             $devNull = null; // Simulates /dev/null - output from exec() would be deleted
-            $stdOut = []; // Clean for next use
             $command = sprintf("%s %s < %s 2> /dev/null", $test->getScript(), $paramsGroup[$i], self::TMP_FILE);
 
             // Get exit code
