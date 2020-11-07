@@ -190,7 +190,11 @@ class Tester
             // Get exit code
             exec($command, $devNull, $exitCode);
             // Get output
-            $stdOut = explode("\n", shell_exec($command));
+            if (($commandOutput = shell_exec($command)) !== null) {
+                $stdOut = explode("\n", $commandOutput);
+            } else {
+                $stdOut = [];
+            }
 
             // Exit codes of all child processes have to be 0
             // Exit code of the end process (C script ran with end parameters) can be different,
