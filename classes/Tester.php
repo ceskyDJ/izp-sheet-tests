@@ -184,10 +184,15 @@ class Tester
         $paramsGroup = $test->getParamsGroup();
         for ($i = 0; $i < count($paramsGroup); $i++) {
             $this->prepareTestFile(self::TMP_FILE, $stdOut);
-            $stdOut = []; // It's required because exec() only appends values, not replace
 
+            $devNull = null; // Simulates /dev/null - output from exec() would be deleted
+            $stdOut = []; // Clean for next use
             $command = sprintf("%s %s < %s 2> /dev/null", $test->getScript(), $paramsGroup[$i], self::TMP_FILE);
-            exec($command, $stdOut, $exitCode);
+
+            // Get exit code
+            exec($command, $devNull, $exitCode);
+            // Get output
+            $stdOut = explode("\n", shell_exec($command));
 
             // Exit codes of all child processes have to be 0
             // Exit code of the end process (C script ran with end parameters) can be different,
