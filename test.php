@@ -491,7 +491,7 @@ $tester->createTest()
     ->setScript($script)
     ->addParams("-d :")
     ->setFileInput("{$f}/0-many-delimiters-input.txt")
-    ->setExpExitCode(1);
+    ->setExpExitCode(0);
 
 
 // Get data
