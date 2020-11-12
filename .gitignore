@@ -4,3 +4,6 @@
 # Compiled and debug files
 cmake-build-debug/
 sheet
+
+# Run script for local debugging
+test.sh
