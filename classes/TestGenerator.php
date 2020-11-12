@@ -17,9 +17,9 @@ class TestGenerator
      * Some valid input for testing exit codes
      */
     private const SOME_INPUT = [
-        "Jméno:Příjmení:Částka:Zaplaceno",
-        "Michal:Šmahel:100 Kč:9. 10. 2020",
-        "Vojtěch:Svědiroh:100 Kč:9. 10. 2020"
+        ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+        ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+        ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
     ];
     /**
      * String with alphabet chars
