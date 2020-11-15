@@ -210,8 +210,13 @@ class Tester
             throw new ErrorInScriptException($errorMessage, $test, ErrorInScriptException::TYPE_BAD_EXIT_CODE);
         }
 
+        // Error detection tests don't check output, only exit code
+        if ($test->getExpExitCode() != 0) {
+            return;
+        }
+
         // Output testing
-        if(count($stdOut) !== count($expStdOut)) {
+        if((count($stdOut) !== count($expStdOut))) {
             $errorMessage = sprintf("Number of rows doesn't match (expected: %d, got %d).", count($expStdOut), count($stdOut));
             throw new ErrorInScriptException($errorMessage, $test, ErrorInScriptException::TYPE_BAD_OUTPUT);
         }
