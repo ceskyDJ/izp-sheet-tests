@@ -75,6 +75,7 @@ $tester->startNewLevel(0, "Standard behaviour", $newLevelCallback);
 $tester->createTest()
     ->setName("Simple call without parameters (=> without changes)")
     ->setScript($script)
+    ->addParams("-d :")
     ->setFileInput("{$f}/0-school-input.txt")
     ->setFileExpOutput("{$f}/1-simple-call.txt");
 // Many delimiters
